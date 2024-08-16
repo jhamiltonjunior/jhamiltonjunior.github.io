@@ -1,627 +1,376 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Website Title -->
-  <title>Hamilton Junior - Desenvolvedor Web</title>
-  <!-- Bootstrap -->
-  <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font-Awesome -->
-  <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <!-- Lightbox -->
-  <link href="assets/lightbox/css/lightbox.css" rel="stylesheet">
-  <!-- Text Rotator-->
-  <link href="assets/textrotator/simpletextrotator.css" rel="stylesheet">
-  <!-- FlexSlider -->
-  <link href="assets/flexslider/flexslider.css" rel="stylesheet">
-  <!-- Theme Style -->
-  <link href="css/style.css" rel="stylesheet">
-  <!-- Animations -->
-  <link href="css/animate.css" rel="stylesheet">
-  <!-- Custom Favicon -->
-  <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="assets/html5shiv/html5shiv.js"></script>
-    <script src="assets/respond/respond.min.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio - Seu Nome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333333;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #1e1e2f;
+            color: #ffffff;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #f0f0f0;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        .dark-mode .sidebar {
+            background-color: #2e2e3e;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .sidebar-header {
+            padding: 2em;
+            text-align: center;
+            background-color: #ff6347;
+            color: #ffffff;
+        }
+        .sidebar-header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .sidebar-header p {
+            margin: 0.5em 0;
+        }
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            padding: 1em;
+            text-align: center;
+        }
+        .sidebar-nav a {
+            cursor: pointer;
+            color: inherit;
+            text-decoration: none;
+            padding: 1em;
+            font-size: 1.2em;
+            font-weight: 400;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .sidebar-nav a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ff6347;
+            transition: width 0.3s;
+        }
+        .sidebar-nav a:hover::before {
+            width: 100%;
+        }
+        .sidebar-nav a:hover {
+            background-color: #ff6347;
+            color: #ffffff;
+            transform: translateX(10px);
+        }
+        .container {
+            /*margin-left: 320px;*/
+            padding: 4em 2em;
+            transition: margin-left 0.3s;
+        }
+        section {
+            margin-bottom: 4em;
+            padding: 2em;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .dark-mode section {
+            background-color: #2e2e3e;
+        }
+        section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+        }
+        h2 {
+            margin-bottom: 1em;
+            font-size: 2em;
+            border-bottom: 3px solid #ff6347;
+            padding-bottom: 0.5em;
+            color: #ff6347;
+        }
+        .projects-item {
+            margin-bottom: 2em;
+            padding: 1em;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .dark-mode .projects-item {
+            background-color: #444444;
+        }
+        .projects-item:hover {
+            background-color: #ff6347;
+            color: #ffffff;
+            transform: translateY(-5px);
+        }
+        .projects-item h3 {
+            margin: 0;
+            font-size: 1.4em;
+        }
+        .projects-item p {
+            margin: 0.5em 0 0;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 0.75em;
+            margin-bottom: 1em;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            color: #333333;
+            font-family: 'Nunito', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode .contact-form input, .dark-mode .contact-form textarea {
+            background-color: #333333;
+            color: #ffffff;
+            border-color: #555555;
+        }
+        .contact-form button {
+            width: 100%;
+            background-color: #ff6347;
+            color: #ffffff;
+            border: none;
+            padding: 0.75em;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .contact-form button:hover {
+            background-color: #ff8567;
+            transform: scale(1.05);
+        }
+        footer {
+            text-align: center;
+            padding: 2em 0;
+            background-color: #f8f9fa;
+            color: #777777;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode footer {
+            background-color: #111111;
+            color: #aaaaaa;
+        }
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff6347;
+            color: #ffffff;
+            border: none;
+            padding: 0.5em 1em;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+            z-index: 1001;
+        }
+        .toggle-button:hover {
+            background-color: #ff8567;
+        }
+        .toggle-sidebar-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #ff6347;
+            color: #ffffff;
+            border: none;
+            padding: 0.5em 1em;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+            z-index: 1001;
+        }
+        .toggle-sidebar-button:hover {
+            background-color: #ff8567;
+        }
+    </style>
 </head>
-
-<body id="top">
-
-  <!-- ****************************** Preloader ************************** -->
-  <div id="preloader"></div>
-
-
-  <!-- ==========================
-        HEADER SECTION 
-        =========================== -->
-  <header id="home">
-    <!-- creative menu -->
-    <div class="container-fluid">
-      <div class="row">
-        <div class="menu-wrap">
-          <nav class="menu">
-            <!-- Menu Links -->
-            <div class="icon-list">
-              <a href="index.html#home"><i class="fa fa-fw fa-home"></i><span>Home</span></a>
-              <a href="index.html#about"><i class="fa fa-fw fa-quote-left"></i><span>Sobre</span></a>
-              <!-- <a href="index.html#service"><i class="fa fa-fw fa-globe"></i><span>Serviços</span></a> -->
-              <a href="index.html#portfolio"><i class="fa fa-fw fa-picture-o"></i><span>Portfolio</span></a>
-              <a href="index.html#blog"><i class="fa fa-fw fa-rss"></i><span>Blog</span></a>
-              <a href="index.html#contact"><i class="fa fa-fw fa-envelope-o"></i><span>Contato</span></a>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>Hamilton</h1>
+            <p>Desenvolvedor Web</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a data-scroll="sobre">Sobre Mim</a>
+            <a data-scroll="projetos">Projetos</a>
+            <a data-scroll="habilidades">Habilidades</a>
+            <a data-scroll="contato">Contato</a>
+        </nav>
+    </div>
+    <div class="container">
+        <section>
+            <h2>José Hamilton Santos Junior</h2>
+            <div style="display: flex; justify-content: space-between;">
+                <div>Linkedin</div>
+                <div>GitHub</div>
+                <div>Linkedin</div>
             </div>
-          </nav>
-        </div>
-        <button class="menu-button" id="open-button"></button><!-- menu button -->
-      </div><!--/row-->
-    </div><!--/container-->
-    <!-- Header Image -->
-    <section class="hero" id="hero">
-      <div class="container">
-        <!-- Slider Button (don't edit!)-->
-        <div class="row">
-          <div class="col-md-12 text-right navicon">
-            <a id="nav-toggle" class="nav_slide_button" href="index.html#"><span></span></a>
-          </div>
-        </div>
-        <!-- HEADER HEADLINE -->
-        <div class="row">
-          <div class="col-md-8 col-md-offset-1 inner">
-            <h1 class="animated fadeInDown">
-              H<span style="color:#488aee;">a</span>mil<br />
-              <span>t<span style="color:#FFE800">o</span>n</span>
-            </h1><!-- Title -->
-            <h3 class="animated fadeInUp delay-05s"><span class="rotate">Dev Web,Estudante Nato,Tech</span></h3>
-            <!-- Text Rotator -->
-          </div>
-        </div>
-        <!-- Learn More Button -->
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3 text-center">
-            <a href="index.html#about" class="scrollto wow fadeInUp delay-5s ">
-              <p>Veja Mais</p>
-              <p class="scrollto--arrow"><img src="img/scroll-down.png" alt="scroll down arrow"></p>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Header Image End -->
-  </header>
-  <!-- ==========================
-        HEADER SECTION END  
-        =========================== -->
+        </section>
+        <section id="sobre">
+            <h2>Sobre Mim</h2>
+            <p>Sou um desenvolvedor (me considero autodidata) com experiência em desenvolvimento de software, tanto em front-end quanto em back-end, além de ter conhecimentos em nuvem (AWS EC2). Utilizo tecnologias como TypeScript, Golang, Linux, MySQL, Git, AWS, também já utilizei Rabbitmq para um projeto pessoal, onde ele era responsável por salvar os dados de um cliente em uma API de pagamentos.</p>
 
+            <p>Mesmo ainda sendo apenas um estagiário eu aumentei a produtividade no trabalho fazendo com que um novo projeto passasse a usar versionamento de código git, dessa forma “subir” as novas atualizações ficou ainda mais fácil e a produtividade do time aumentou em relação aos projetos anteriores que usava FTP ou gerenciador de arquivo Web.</p>
 
+            <p>Meu engajamento vai além das obrigações acadêmicas, pois também busco constantemente atualizar-me sobre as tecnologias emergentes. Valorizo a implementação de práticas de Clean Code e a utilização de containers Docker, o que tem contribuído para a escalabilidade e segurança dos serviços que desenvolvo. Sou movido pelo desejo de aprender e pelo compromisso com a excelência em cada projeto que realizo.</p>
 
+            <p>Atualmente estou cursando Engenharia de Software na faculdade Estácio para expandir minhas oportunidades e estou aberto a vagas de estágio e de desenvolvedor júnior.</p>
 
-  <!-- ==========================
-        ABOUT SECTION  
-        =========================== -->
-  <section class="intro text-center section-padding color-bg" id="about">
-    <div class="container">
-      <!-- WELCOME TEXT -->
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2 wp1">
-          <h1 class="arrow">Um pouco <span>Sobre</span> mim</h1><!-- Headline -->
-          <!-- about / welcome text -->
-          <p>Sou desenvolvedor o suficiente para criar livremente em minha imaginação. A questão é que, quando vejo uma
-            solução elegante para um problema complexo ou uma interface intuitiva que facilita a vida dos usuários, por
-            uma fração de segundo, é tão gratificante. Porque, por um momento, fico fora de mim, e isso não tem nada a
-            ver comigo. Não estou tentando descobrir, entende o que quero dizer? E me pergunto se posso de alguma forma
-            encontrar uma maneira de manter essa clareza mental. Cada linha de código que escrevo é um passo em direção
-            a essa busca, um esforço para capturar e sustentar essa sensação de realização.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+            <p>Além disso, sou um aprendiz constante e estou sempre me atualizando sobre as tecnologias que eu já conheço para me aperfeiçoar.</p>
 
+            <p>Confira meu GitHub (<a style="color:#ff8567" href="https://github.com/jhamiltonjunior">Clique aqui</a>) para ver mais sobre meus projetos.</p>
 
+            <p>Para saber mais sobre minha jornada na programação, confira meu artigo: https://hamiltonjr.dev/article/por-onde-e-como-comecar-nesse-mundo-imenso-que-e-a-programacao.</p>
 
-
-  <!-- ==========================
-        SERVICE SECTION 
-        =========================== -->
-
-  <!-- ==========================
-        ABOUT SECTION END
-        =========================== -->
-
-
-
-
-  <!-- ==========================
-        PORTFOLIO SECTION
-    =========================== -->
-  <section class="swag text-center" id="portfolio">
-    <div class="container">
-      <!-- Headline -->
-      <div class="row">
-        <h1 class="arrow">
-          Meus <span>Projetos</span>
-        </h1>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="row row-offset-0">
-
-      <!-- PORTFOLIO ITEM 1 -->
-      <div class="col-md-3 col-sm-6">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/calc-imc.jpeg" data-lightbox="roadtrip" style="max-width: 400px;"
-              title="Calcular o IMC">
-              <img class="grayscale" src="img/portfolio/calc-imc.jpeg" style="max-width: 400px;" alt="Portfolio Item">
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-
-      <!-- PORTFOLIO ITEM 2 -->
-      <div class="col-md-3 col-sm-6">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/clone-netflix.jpeg" style="max-width: 400px;" data-lightbox="roadtrip"
-              title="Clone da Netflix"><img class="grayscale" src="img/portfolio/clone-netflix.jpeg"
-                style="max-width: 400px;" alt="Portfolio Item"></a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-
-      <!-- PORTFOLIO ITEM 3 -->
-      <div class="col-md-3 col-sm-6">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/portfolio-03-large.jpg" data-lightbox="roadtrip"
-              title="Project Three - Lorem Ipsum"><img class="grayscale" src="img/portfolio/portfolio-03-thumbnail.jpg"
-                alt="Portfolio Item"></a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-
-      <!-- PORTFOLIO ITEM 4 -->
-      <div class="col-md-3 col-sm-6 ">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/portfolio-04-large.jpg" data-lightbox="roadtrip"
-              title="Project Four - Lorem Ipsum"><img class="grayscale" src="img/portfolio/portfolio-04-thumbnail.jpg"
-                alt="Portfolio Item"></a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-
-      <!-- PORTFOLIO ITEM 5 -->
-      <div class="col-md-3 col-sm-6 ">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/portfolio-05-large.jpg" data-lightbox="roadtrip"
-              title="Project Five - Lorem Ipsum"><img class="grayscale" src="img/portfolio/portfolio-05-thumbnail.jpg"
-                alt="Portfolio Item"></a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-
-      <!-- PORTFOLIO ITEM 6 -->
-      <div class="col-md-3 col-sm-6">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/portfolio-06-large.jpg" data-lightbox="roadtrip"
-              title="Project Six - Lorem Ipsum"><img class="grayscale" src="img/portfolio/portfolio-06-thumbnail.jpg"
-                alt="Portfolio Item"></a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-
-      <!-- PORTFOLIO ITEM 7 -->
-      <div class="col-md-3 col-sm-6">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/portfolio-07-large.jpg" data-lightbox="roadtrip"
-              title="Project Seven - Lorem Ipsum"><img class="grayscale" src="img/portfolio/portfolio-07-thumbnail.jpg"
-                alt="Portfolio Item"></a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-
-      <!-- PORTFOLIO ITEM 8 -->
-      <div class="col-md-3 col-sm-6">
-        <div class="overlay-effect effects clearfix">
-          <div class="img">
-            <a href="img/portfolio/portfolio-08-large.jpg" data-lightbox="roadtrip"
-              title="Project Eight - Lorem Ipsum"><img class="grayscale" src="img/portfolio/portfolio-08-thumbnail.jpg"
-                alt="Portfolio Item"></a>
-          </div>
-        </div>
-      </div>
-      <!-- PORTFOLIO ITEM END -->
-    </div><!--/row-->
-  </div><!--/.container-->
-  <!-- ==========================
-        PORTFOLIO SECTION END
-        =========================== -->
-
-
-
-
-  <!-- ==========================
-        CUSTOM SPACER
-        =========================== -->
-  <div class="spacer-cta text-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <a href="index.html#contact" class="outline-btn">Contato</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- ==========================
-        CUSTOM SPACER END
-        =========================== -->
-
-
-
-  <!-- ==========================
-        BLOG SECTION 
-        =========================== -->
-  <section class="text-center section-padding" id="blog">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1 class="arrow">Meu <span>pequeno</span> blog</h1>
-        </div>
-      </div><br><br>
-
-      <div class="row">
-        <div id="blogSlider">
-          <ul class="slides">
-            <li>
-              <div class="col-md-4 wp4">
-                <div class="overlay-effect effects clearfix">
-                  <div class="img">
-                    <img src="img/blog1.jpg" class="grayscale" alt="Blog Item">
-                  </div>
+        </section>
+        <section id="projetos">
+            <h2>Projetos</h2>
+            <div style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+           ">
+                <div class="projects-item">
+                    <h3>Projeto 1</h3>
+                    <p>Descrição do projeto 1, incluindo as tecnologias utilizadas e os desafios superados.</p>
                 </div>
-                <br>
-                <h2>Creative Minds</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies nulla non metus pulvinar
-                  imperdiet. Praesent non adipiscing libero.</p>
-              </div>
-              <div class="col-md-4 wp4 delay-05s">
-                <div class="overlay-effect effects clearfix">
-                  <div class="img">
-                    <img src="img/blog2.jpg" class="grayscale" alt="Blog Item">
-                  </div>
+                <div class="projects-item">
+                    <h3>Projeto 2</h3>
+                    <p>Descrição do projeto 2, incluindo as tecnologias utilizadas e os desafios superados.</p>
                 </div>
-                <br>
-                <h2>Creative Hearts</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies nulla non metus pulvinar
-                  imperdiet. Praesent non adipiscing libero.</p>
-              </div>
-              <div class="col-md-4 wp4 delay-1s">
-                <div class="overlay-effect effects clearfix">
-                  <div class="img">
-                    <img src="img/blog3.jpg" class="grayscale" alt="Blog Item">
-                  </div>
+                <div class="projects-item">
+                    <h3>Projeto 3</h3>
+                    <p>Descrição do projeto 3, incluindo as tecnologias utilizadas e os desafios superados.</p>
                 </div>
-                <br>
-                <h2>Creative Ideas</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies nulla non metus pulvinar
-                  imperdiet. Praesent non adipiscing libero.</p>
-              </div>
-            </li>
-            <li>
-              <div class="col-md-4 wp4">
-                <div class="overlay-effect effects clearfix">
-                  <div class="img">
-                    <img src="img/blog1.jpg" class="grayscale" alt="Blog Item">
-                  </div>
+                <div class="projects-item">
+                    <h3>Projeto 1</h3>
+                    <p>Descrição do projeto 1, incluindo as tecnologias utilizadas e os desafios superados.</p>
                 </div>
-                <br>
-                <h2>Creative Minds</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies nulla non metus pulvinar
-                  imperdiet. Praesent non adipiscing libero.</p>
-              </div>
-              <div class="col-md-4 wp4 delay-05s">
-                <div class="overlay-effect effects clearfix">
-                  <div class="img">
-                    <img src="img/blog2.jpg" class="grayscale" alt="Blog Item">
-                  </div>
+                <div class="projects-item">
+                    <h3>Projeto 2</h3>
+                    <p>Descrição do projeto 2, incluindo as tecnologias utilizadas e os desafios superados.</p>
                 </div>
-                <br>
-                <h2>Creative Hearts</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies nulla non metus pulvinar
-                  imperdiet. Praesent non adipiscing libero.</p>
-              </div>
-
-              <div class="col-md-4 wp4 delay-1s">
-                <div class="overlay-effect effects clearfix">
-                  <div class="img">
-                    <img src="img/blog3.jpg" class="grayscale" alt="Blog Item">
-                  </div>
+                <div class="projects-item">
+                    <h3>Projeto 3</h3>
+                    <p>Descrição do projeto 3, incluindo as tecnologias utilizadas e os desafios superados.</p>
                 </div>
-                <br>
-                <h2>Creative Ideas</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies nulla non metus pulvinar
-                  imperdiet. Praesent non adipiscing libero.</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- ==========================
-        BLOG SECTION END
-        =========================== -->
-
-
-
-  <!-- ==========================
-        CLIENT SECTION 
-        =========================== -->
-  <div class="container-fluid">
-    <div class="row color-bg">
-      <!-- Left Image -->
-      <div class="col-md-6 nopadding features-intro-img wow fadeInLeft">
-        <div class="about-image" style="background-image:url(img/clients.png)"></div>
-      </div>
-      <!-- Clients / Testimonials -->
-      <div class="col-md-6 nopadding about-text">
-        <h6>Feedbacks</h6>
-        <div id="clientSlider">
-          <ul class="slides">
-            <li>
-              <p>Trabalhar com o Hamilton foi uma experiência excepcional. Sua capacidade de resolver problemas
-                complexos de forma eficiente e sua atenção aos detalhes fizeram toda a diferença em nossos projetos. Ele
-                é uma pessoa dedicada e sempre disposta a aprender mais.<br>
-                <small>- Maria Silva, Tech Solutions</small>
-              </p>
-            </li>
-            <li>
-              <p>A colaboração com o Hamilton foi incrivelmente produtiva. Ele trouxe novas perspectivas para a equipe e
-                ajudou a otimizar nossos processos de desenvolvimento. Sua paixão pela engenharia de software é evidente
-                em tudo o que faz, e sua ética de trabalho é inspiradora.<br>
-                <small>- Carlos Oliveira, DevMasters</small>
-              </p>
-            </li>
-            <li>
-              <p>Hamilton é um desenvolvedor talentoso e inovador. Sua abordagem criativa para resolver problemas e sua
-                habilidade de trabalhar bem em equipe o tornam um grande trunfo para qualquer projeto. Ele sempre busca
-                as melhores soluções e se destaca pela sua proatividade.<br>
-                <small>- Júlia Costa, Web Innovators</small>
-              </p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- ==========================
-        CLIENTS SECTION END
-        =========================== -->
-
-
-
-
-
-  <!-- ==========================
-        NEWSLETTER SECTION 
-        =========================== -->
-  <section>
-    <div class="container-fluid">
-      <div class="row color-bg">
-        <div class="col-md-6 nopadding subscribe text-center">
-          <h1><i class="fa fa-paper-plane"></i><span>Fique por dentro das Novidades</span></h1><!-- Heading -->
-          <form action="index.html#">
-            <input type="text" name="" value="" placeholder="" required><!-- E-Mail -->
-            <input type="submit" name="" value="Send"><!-- Submit Button -->
-          </form>
-        </div>
-        <div class="col-md-6 nopadding features-intro-img">
-          <div class="about-image" style="background-image:url(img/newsletter.png)"></div><!-- Right Image -->
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- ==========================
-        NEWSLETTER SECTION END
-        =========================== -->
-
-
-
-  <!-- ==========================
-        CONTACT SECTION
-        =========================== -->
-  <section class="text-center section-padding contact-wrap" id="contact">
-    <!-- To Top Button -->
-    <a href="index.html#top" class="up-btn"><i class="fa fa-chevron-up"></i></a>
-    <div class="container">
-      <!-- Headline -->
-      <div class="row">
-        <div class="col-md-12">
-          <h1 class="arrow">Me <span>contate</span></h1>
-        </div>
-      </div>
-      <div class="row contact-details">
-        <!-- Adress Box -->
-        <div class="col-md-4">
-          <div class="dark-box box-hover">
-            <h2><i class="fa fa-map-marker"></i><span>Endereço</span></h2>
-            <p>
-              Alagoinhas, Bahia
-            </p>
-          </div>
-        </div>
-        <!-- Phone Number Box -->
-        <div class="col-md-4">
-          <div class="dark-box box-hover">
-            <h2><i class="fa fa-mobile"></i><span>Celular/WhatsApp</span></h2>
-            <p href="">(75) 9 8184-9068</p>
-          </div>
-        </div>
-        <!-- E-Mail Box -->
-        <div class="col-md-4">
-          <div class="dark-box box-hover">
-            <h2><i class="fa fa-paper-plane"></i><span>Email</span></h2>
-            <p><a href="mailto:hamiltonjr.dev@gmail.com">hamiltonjr.dev@gmail.com</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <!-- Google Maps (Change your Settings below) -->
-        <div class="col-md-6">
-          <div id="googlemaps"></div>
-        </div>
-        <!-- Contact Form -->
-        <div class="col-md-6 contact">
-          <form role="form">
-            <!-- Name -->
-            <div class="row">
-              <div class="col-md-6">
-                <!-- E-Mail -->
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Nome">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <!-- Phone Number -->
-                <div class="form-group">
-                  <input type="email" class="form-control" placeholder="Email">
-                </div>
-              </div>
             </div>
-            <!-- Message Area -->
-            <div class="form-group">
-              <textarea class="form-control" placeholder="Escreva sua mensagem aqui..."
-                style="height:232px;"></textarea>
+        </section>
+        <section id="experiencia">
+            <h2>Experiencia</h2>
+            <div>
+                <div class="projects-item">
+                    <h3>Edutec Consultoria - <small>jul/2023 - O momento</small> </h3>
+                    <p>Desenvolvo novas funcionalidades em projetos já existentes e que estão em fase de desenvolvimento.</p>
+                    <p>Integracao com API de pagamentos.</p>
+                    <p>Mesmo ainda sendo apenas um estagiário eu aumentei a produtividade no trabalho fazendo com que um novo projeto passasse a usar versionamento de código git. Dessa forma “subir” as novas atualizações ficou ainda mais fácil e a produtividade do time aumentou em relação aos projetos anteriores que usava FTP ou gerenciador de arquivo Web</p>
+                </div>
+                <div class="projects-item">
+                    <h3>Freelancer - <small>jun/2022 a jul/2023</small></h3>
+                    <p>Com foco em micro saas, esse é uma pequena parte do sistema, um micro-serviço para criação de tarefas escrito a base de testes end to end (irei adicionar testes unitários em breve), com foco em docker, com hospedagem futura na aws, desenvolvido principalmente em Typescript usando nodejs, express para servidor, Postgresql como banco de dados, git e github para versionamento de código, para medidas de segurança eu uso o jsonwebtoken (jwt) e o bcrypt para encriptar as senhas no banco de dados</p>
+                </div>
             </div>
-            <!-- Subtmit Button -->
-            <button type="submit" class="btn btn-send">
-              Send message
-            </button>
-          </form>
-        </div>
-      </div>
-      <br>
-      <!-- Social Buttons - use font-awesome, past in what you want -->
-      <div class="row">
-        <div class="col-md-12">
-          <ul class="social-buttons">
-            <li><a href="index.html#" class="social-btn"><i class="fa fa-dribbble"></i></a></li><!-- dribble -->
-            <li><a href="index.html#" class="social-btn"><i class="fa fa-twitter"></i></a></li><!-- twitter -->
-            <li><a href="index.html#" class="social-btn"><i class="fa fa-facebook"></i></a></li><!-- facebook -->
-            <li><a href="index.html#" class="social-btn"><i class="fa fa-deviantart"></i></a></li><!-- deviantart -->
-            <li><a href="index.html#" class="social-btn"><i class="fa fa-youtube"></i></a></li><!-- youtube -->
-          </ul>
-        </div>
-      </div>
+        </section>
+        <section id="escolaridade">
+            <h2>Escolaridade</h2>
+            <div>
+                <div class="projects-item">
+                    <h3>Curso Superior - Engenharia de Software</h3>
+                    <p>2022 - O momento (Previsao 2026)</p>
+                    <p>Descrição do projeto 1, incluindo as tecnologias utilizadas e os desafios superados.</p>
+                </div>
+                <div class="projects-item">
+                    <h3>Ensino Medio</h3>
+                    <p>20xx - 20xx</p>
+                    <p>Colegio Estadual Brasilino Viegas</p>
+                </div>
+                <div class="projects-item">
+                    <h3>Ensino Fundamental</h3>
+                    <p>Esse foi, de fato, um ensino fundamental</p>
+                </div>
+            </div>
+        </section>
+        <section id="habilidades">
+            <h2>Habilidades</h2>
+            <ul>
+                <li>Go (Golang)</li>
+                <li>Amazon Web Service (EC2)</li>
+                <li>Linux</li>
+                <li>MySQL</li>
+                <li>HTML & CSS</li>
+                <li>JavaScript & TypeScript & Frameworks</li>
+                <li>Desenvolvimento Backend</li>
+                <li>Versionamento de Código (Git)</li>
+                <li>Design Responsivo</li>
+            </ul>
+        </section>
+        <section id="contato">
+            <h2>Contato</h2>
+            <p>Se deseja entrar em contato, por favor preencha o formulário abaixo:</p>
+            <form class="contact-form" action="mailto:seuemail@example.com" method="post" enctype="text/plain">
+                <input type="text" name="nome" placeholder="Seu Nome" required>
+                <input type="email" name="email" placeholder="Seu Email" required>
+                <textarea name="mensagem" rows="6" placeholder="Sua Mensagem" required></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
     </div>
-  </section>
-  <!-- ==========================
-        CONTACT SECTION END
-        =========================== -->
+    <footer>
+        <p>&copy; 2024 Jose Hamilton Santos Junior. Todos os direitos reservados.</p>
+    </footer>
+    <button class="toggle-button" onclick="toggleMode()">Modo Escuro/Claro</button>
+    <button class="toggle-sidebar-button" onclick="toggleSidebar()">☰</button>
 
+    <script>
+        document.querySelectorAll('a[data-scroll]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
 
+                const targetId = this.getAttribute('data-scroll');
+                const targetElement = document.getElementById(targetId);
 
-  <!-- ==========================
-        FOOTER SECTION
-        =========================== -->
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <p>Todos os direitos reservados. &copy; 2024 <a href="/">Hamilton</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- ==========================
-        FOOTER SECTION END
-        =========================== -->
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
 
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+        }
 
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <!-- SmoothScroll -->
-  <script type="text/javascript" src="assets/smoothscroll/smoothscroll.js"></script>
-  <!-- Bootstrap -->
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <!-- Waypoints -->
-  <script src="js/waypoints.min.js"></script>
-  <!-- classie.js -->
-  <script src="js/classie.js"></script>
-  <!-- FlexSlider -->
-  <script src="assets/flexslider/jquery.flexslider.js"></script>
-  <!-- Modernizr -->
-  <script src="js/modernizr.js"></script>
-  <!-- Text Rotator -->
-  <script src="assets/textrotator/jquery.simple-text-rotator.js"></script>
-  <!-- Lightbox.js -->
-  <script src="assets/lightbox/js/lightbox.min.js"></script>
-  <!-- Google Maps -->
-  <script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=sqMyAmCcedYU8oH_Pj42ja72pSEGG4J-oMbsJqXIXFE&amp;sensor=false"></script>
-  <!-- Theme JavaScript Core -->
-  <script src="js/main.js"></script>
-  <script src="js/script.js"></script>
-
-  <!-- GOOGLE MAPS DATA -->
-  <script type="text/javascript" async>
-    // When the window has finished loading create our google map below
-    // google.maps.event.addDomListener(window, 'load', init);
-    window.addEventListener('load', init);
-
-    function init() {
-      // Basic options for a simple Google Map
-      // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
-      var mapOptions = {
-        // How zoomed in you want the map to start at (always required)
-        zoom: 15,
-
-        scrollwheel: false,
-
-        // The latitude and longitude to center the map (always required)
-        center: new google.maps.LatLng(40.68961985411178, -74.01618003845215), // New York 
-
-        // How you would like to style the map. 
-        // This is where you would paste any style found on Snazzy Maps.
-        styles: [{ featureType: 'water', stylers: [{ color: '#F2F2F2' }, { visibility: 'on' }] }, { featureType: 'landscape', stylers: [{ color: '#FFFFFF' }] }, { featureType: 'road', stylers: [{ saturation: -100 }, { lightness: 45 }] }, { featureType: 'road.highway', stylers: [{ visibility: 'simplified' }] }, { featureType: 'road.arterial', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] }, { featureType: 'administrative', elementType: 'labels.text.fill', stylers: [{ color: '#ADADAD' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }, { featureType: 'poi', stylers: [{ visibility: 'off' }] }]
-      };
-
-      // Get the HTML DOM element that will contain your map 
-      // We are using a div with id="map" seen below in the <body>
-      var mapElement = document.getElementById('googlemaps');
-
-      // Create the Google Map using out element and options defined above
-      var map = new google.maps.Map(mapElement, mapOptions);
-    }
-
-  </script>
-
-  <!-- TEXT ROTATOR SETTINGS -->
-  <script type="text/javascript">
-    $(".rotate").textrotator({
-      animation: "fade", // You can pick the way it animates when rotating through words. Options are dissolve (default), fade, flip, flipUp, flipCube, flipCubeUp and spin.
-      separator: ",", // If you don't want commas to be the separator, you can define a new separator (|, &, * etc.) by yourself using this field.
-      speed: 2000 // How many milliseconds until the next word show.
-    });
-  </script>
-
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+    </script>
 </body>
-
 </html>

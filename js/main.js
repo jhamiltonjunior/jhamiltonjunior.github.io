@@ -62,3 +62,24 @@ Menu
 })();
 
 
+document.addEventListener('DOMContentLoaded', (event) => {
+	const modal = document.getElementById("myModal");
+	const btn = document.getElementById("openModalBtn");
+	const body = document.getElementsByTagName('body')[0];
+	console.log(body)
+
+
+	btn.onclick = function() {
+		modal.style.display = "flex";
+		body.style.overflow = "hidden";
+	}
+
+	btn.click()
+
+	window.onclick = function(event) {
+		if (event.target === modal) {
+			modal.style.display = "none";
+			body.style.overflow = "auto";
+		}
+	}
+});
