@@ -8,12 +8,14 @@
     <style>
         body {
             font-family: 'Nunito', sans-serif;
-            margin: 0;
+            /*margin: 0;*/
             padding: 0;
             background-color: #ffffff;
             color: #333333;
             overflow-x: hidden;
             transition: background-color 0.3s, color 0.3s;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .dark-mode {
             background-color: #1e1e2f;
@@ -207,6 +209,28 @@
         .toggle-sidebar-button:hover {
             background-color: #ff8567;
         }
+
+        #artigos .projects-item {
+            cursor: pointer;
+        }
+
+        .projetos {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 961px) {
+            .projetos {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 543px) {
+            .projetos {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -237,24 +261,13 @@
 
             <p>Mesmo ainda sendo apenas um estagiário eu aumentei a produtividade no trabalho fazendo com que um novo projeto passasse a usar versionamento de código git, dessa forma “subir” as novas atualizações ficou ainda mais fácil e a produtividade do time aumentou em relação aos projetos anteriores que usava FTP ou gerenciador de arquivo Web.</p>
 
-            <p>Meu engajamento vai além das obrigações acadêmicas, pois também busco constantemente atualizar-me sobre as tecnologias emergentes. Valorizo a implementação de práticas de Clean Code e a utilização de containers Docker, o que tem contribuído para a escalabilidade e segurança dos serviços que desenvolvo. Sou movido pelo desejo de aprender e pelo compromisso com a excelência em cada projeto que realizo.</p>
+<!--            <p>Meu engajamento vai além das obrigações acadêmicas, pois também busco constantemente atualizar-me sobre as tecnologias emergentes. Valorizo a implementação de práticas de Clean Code e a utilização de containers Docker, o que tem contribuído para a escalabilidade e segurança dos serviços que desenvolvo. Sou movido pelo desejo de aprender e pelo compromisso com a excelência em cada projeto que realizo.</p>-->
 
-            <p>Atualmente estou cursando Engenharia de Software na faculdade Estácio para expandir minhas oportunidades e estou aberto a vagas de estágio e de desenvolvedor júnior.</p>
-
-            <p>Além disso, sou um aprendiz constante e estou sempre me atualizando sobre as tecnologias que eu já conheço para me aperfeiçoar.</p>
-
-            <p>Confira meu GitHub (<a style="color:#ff8567" href="https://github.com/jhamiltonjunior">Clique aqui</a>) para ver mais sobre meus projetos.</p>
-
-            <p>Para saber mais sobre minha jornada na programação, confira meu artigo: https://hamiltonjr.dev/article/por-onde-e-como-comecar-nesse-mundo-imenso-que-e-a-programacao.</p>
 
         </section>
         <section id="projetos">
             <h2>Projetos</h2>
-            <div style="
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-           ">
+            <div class="projetos">
                 <div class="projects-item">
                     <h3>Projeto 1</h3>
                     <p>Descrição do projeto 1, incluindo as tecnologias utilizadas e os desafios superados.</p>
@@ -306,7 +319,7 @@
                 </div>
                 <div class="projects-item">
                     <h3>Ensino Medio</h3>
-                    <p>20xx - 20xx</p>
+                    <p>2012 - 2018</p>
                     <p>Colegio Estadual Brasilino Viegas</p>
                 </div>
                 <div class="projects-item">
@@ -329,6 +342,25 @@
                 <li>Design Responsivo</li>
             </ul>
         </section>
+        <section id="artigos">
+            <h2>Artigos</h2>
+            <div>
+                <div class="projects-item">
+                    <h3>Curso Superior - Engenharia de Software</h3>
+                    <p>2022 - O momento (Previsao 2026)</p>
+                    <p>Descrição do projeto 1, incluindo as tecnologias utilizadas e os desafios superados.</p>
+                </div>
+                <div class="projects-item">
+                    <h3>Ensino Medio</h3>
+                    <p>2012 - 2018</p>
+                    <p>Colegio Estadual Brasilino Viegas</p>
+                </div>
+                <div class="projects-item">
+                    <h3>Ensino Fundamental</h3>
+                    <p>Esse foi, de fato, um ensino fundamental</p>
+                </div>
+            </div>
+        </section>
         <section id="contato">
             <h2>Contato</h2>
             <p>Se deseja entrar em contato, por favor preencha o formulário abaixo:</p>
@@ -343,7 +375,7 @@
     <footer>
         <p>&copy; 2024 Jose Hamilton Santos Junior. Todos os direitos reservados.</p>
     </footer>
-    <button class="toggle-button" onclick="toggleMode()">Modo Escuro/Claro</button>
+<!--    <button class="toggle-button" onclick="toggleMode()">Modo Escuro/Claro</button>-->
     <button class="toggle-sidebar-button" onclick="toggleSidebar()">☰</button>
 
     <script>
