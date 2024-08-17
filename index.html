@@ -120,6 +120,11 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             transition: background-color 0.3s, transform 0.3s;
         }
+
+        .projects-item-pt {
+            margin-bottom: .5em;
+        }
+
         .dark-mode .projects-item {
             background-color: #444444;
         }
@@ -178,9 +183,9 @@
             color: #aaaaaa;
         }
         .toggle-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+            /*position: fixed;*/
+            /*top: 20px;*/
+            /*right: 20px;*/
             background-color: #ff6347;
             color: #ffffff;
             border: none;
@@ -216,14 +221,8 @@
 
         .projetos {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-        }
-
-        @media (max-width: 961px) {
-            .projetos {
-                grid-template-columns: 1fr 1fr;
-            }
         }
 
         @media (max-width: 543px) {
@@ -244,6 +243,7 @@
             <a data-scroll="projetos">Projetos</a>
             <a data-scroll="habilidades">Habilidades</a>
             <a data-scroll="contato">Contato</a>
+            <button class="toggle-button" onclick="toggleMode()">Modo Escuro/Claro</button>
         </nav>
     </div>
     <div class="container">
@@ -268,29 +268,34 @@
         <section id="projetos">
             <h2>Projetos</h2>
             <div class="projetos">
-                <div class="projects-item">
-                    <h3>Projeto 1</h3>
-                    <p>Descrição do projeto 1, incluindo as tecnologias utilizadas e os desafios superados.</p>
+                <div class="projects-item projects-item-pt">
+                    <h3>Teste de Desempenho em um App usando Golang e MySQL</h3>
+                    <ul>
+                        <li>Golang</li>
+                        <li>MySQL</li>
+                    </ul>
+                    <p>Busca os dados de usuarios em uma API externa, salva os dados em um banco de dados, logo apois isso pega todos os dados desse primeiro banco de dados e salva em outro banco de dados.</p>
                 </div>
-                <div class="projects-item">
-                    <h3>Projeto 2</h3>
-                    <p>Descrição do projeto 2, incluindo as tecnologias utilizadas e os desafios superados.</p>
+                <div class="projects-item projects-item-pt">
+                    <h3>Dashboard Financeiro</h3>
+                    <ul>
+                        <li>ReactJS</li>
+                        <li>NextJS</li>
+                    </ul>
+                    <p>Dashboard financeiro que mostra os dados de receita e despesas fornecido pelo backend e que antes disso foi previamente cadastrado para o usuario dono da conta.</p>
                 </div>
-                <div class="projects-item">
-                    <h3>Projeto 3</h3>
-                    <p>Descrição do projeto 3, incluindo as tecnologias utilizadas e os desafios superados.</p>
+                <div class="projects-item projects-item-pt">
+                    <h3>Encurtador de URL</h3>
+                    <ul>
+                        <li>HTML, CSS & JavaScript</li>
+                        <li>Golang</li>
+                        <li>MySQL</li>
+                    </ul>
+                    <p>Um simples encurtador de url capaz de encurtar a url e quando acessado redirecionar o usuario para a url original.</p>
                 </div>
-                <div class="projects-item">
-                    <h3>Projeto 1</h3>
-                    <p>Descrição do projeto 1, incluindo as tecnologias utilizadas e os desafios superados.</p>
-                </div>
-                <div class="projects-item">
-                    <h3>Projeto 2</h3>
-                    <p>Descrição do projeto 2, incluindo as tecnologias utilizadas e os desafios superados.</p>
-                </div>
-                <div class="projects-item">
-                    <h3>Projeto 3</h3>
-                    <p>Descrição do projeto 3, incluindo as tecnologias utilizadas e os desafios superados.</p>
+                <div class="projects-item projects-item-pt">
+                    <h3>Tela de login</h3>
+                    <p>Tela de login responsiva e moderna</p>
                 </div>
             </div>
         </section>
@@ -361,13 +366,19 @@
                 </div>
             </div>
         </section>
-        <section id="contato">
+        <section id="contato" style="display: none">
             <h2>Contato</h2>
             <p>Se deseja entrar em contato, por favor preencha o formulário abaixo:</p>
             <form class="contact-form" action="mailto:seuemail@example.com" method="post" enctype="text/plain">
-                <input type="text" name="nome" placeholder="Seu Nome" required>
-                <input type="email" name="email" placeholder="Seu Email" required>
-                <textarea name="mensagem" rows="6" placeholder="Sua Mensagem" required></textarea>
+                <label>
+                    <input type="text" name="nome" placeholder="Seu Nome" required>
+                </label>
+                <label>
+                    <input type="email" name="email" placeholder="Seu Email" required>
+                </label>
+                <label>
+                    <textarea name="mensagem" rows="6" placeholder="Sua Mensagem" required></textarea>
+                </label>
                 <button type="submit">Enviar</button>
             </form>
         </section>
@@ -375,14 +386,12 @@
     <footer>
         <p>&copy; 2024 Jose Hamilton Santos Junior. Todos os direitos reservados.</p>
     </footer>
-<!--    <button class="toggle-button" onclick="toggleMode()">Modo Escuro/Claro</button>-->
     <button class="toggle-sidebar-button" onclick="toggleSidebar()">☰</button>
 
     <script>
         document.querySelectorAll('a[data-scroll]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-
                 const targetId = this.getAttribute('data-scroll');
                 const targetElement = document.getElementById(targetId);
 
@@ -392,6 +401,7 @@
                         behavior: 'smooth'
                     });
                 }
+              toggleSidebar()
             });
         });
 
