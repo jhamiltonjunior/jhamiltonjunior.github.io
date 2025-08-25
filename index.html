@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamilton - Desenvolvedor Backend</title>
+    <link rel="icon" type="image/png" href="./icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #1a1b26;
+            color: #c0caf5;
+        }
+        .prompt-line {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .prompt {
+            color: #7aa2f7;
+            font-weight: 700;
+        }
+        .command {
+            color: #a9b1d6;
+        }
+        .output {
+            padding-left: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem; 
+            word-break: break-word;
+        }
+        .output-json-container {
+            position: relative;
+        }
+        .output-json {
+            background-color: #24283b;
+            border-left: 3px solid #9ece6a;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+        }
+        .key { color: #bb9af7; }
+        .string { color: #9ece6a; }
+        .link { color: #7dcfff; text-decoration: underline; }
+        .link:hover { color: #a9b1d6; }
+        .comment { color: #5c6370; }
+
+        .skill-tag {
+            background-color: #24283b;
+            color: #9ece6a;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #414868;
+            display: inline-block;
+        }
+
+        .blinking-cursor {
+            font-weight: bold;
+            color: #c0caf5;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { color: transparent; }
+            50% { color: #c0caf5; }
+        }
+        
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(26, 27, 38, 0.8);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; padding: 1rem;
+        }
+        .modal-content {
+            background-color: #24283b; border: 1px solid #414868; border-radius: 8px;
+            width: 100%; max-width: 800px; max-height: 90vh;
+            overflow-y: auto; position: relative;
+        }
+        .modal-header {
+            padding: 1rem; border-bottom: 1px solid #414868;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-body { padding: 1rem; }
+        .modal-close-btn {
+            background: none; border: none; color: #c0caf5;
+            font-size: 1.5rem; cursor: pointer;
+        }
+        .maximize-btn {
+            position: absolute; top: 0.5rem; right: 0.5rem;
+            background-color: #414868; border: none; color: #c0caf5;
+            cursor: pointer; padding: 0.25rem; border-radius: 4px;
+            opacity: 0.7; transition: opacity 0.2s;
+        }
+        .maximize-btn:hover { opacity: 1; }
+        .readme-content {
+            margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #414868;
+        }
+        .readme-content h1, .readme-content h2, .readme-content h3 {
+            color: #c0caf5; border-bottom: 1px solid #414868;
+            padding-bottom: 0.5rem; margin-top: 1.5rem; margin-bottom: 1rem;
+        }
+        .readme-content p { margin-bottom: 1rem; }
+        .readme-content a { color: #7dcfff; }
+        .readme-content code { background-color: #1a1b26; padding: 0.2rem 0.4rem; border-radius: 4px; }
+        .readme-content pre { background-color: #1a1b26; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+        
+        .carousel-controls-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            color: #a9b1d6;
+        }
+        .carousel-control {
+            color: #bb9af7;
+            cursor: pointer;
+        }
+        .carousel-control:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+        <div class="prompt-line text-xl sm:text-2xl mb-4">
+            <span class="prompt">root@hamilton:~$</span>
+            <span id="typewriter" class="command"></span>
+        </div>
+        
+        <div class="output comment mb-12">
+            // Olá! Bem-vindo ao meu portfólio. As seções abaixo simulam comandos de um terminal para apresentar minhas informações.
+        </div>
+
+        <main>
+            <div class="prompt-line text-xl">
+                <span class="prompt">root@hamilton:~$</span>
+                <span class="command">cat ./sobre.md</span>
+            </div>
+            <div class="output text-lg leading-relaxed">
+                <p class="mb-4">> Desenvolvedor Backend com foco em criar APIs robustas, escaláveis e eficientes...</p>
+                <p>> Tenho experiência sólida em <span class="string">'Go (Golang)'</span> e <span class="string">'Node.js'</span>...</p>
+            </div>
+
+            <div class="prompt-line text-xl">
+                <span class="prompt">root@hamilton:~$</span>
+                <span class="command">list-skills --tech</span>
+            </div>
+            <div class="output flex flex-wrap gap-3 text-lg">
+                <span class="skill-tag">Go (Golang)</span><span class="skill-tag">Node.js</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">MongoDB</span><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">gRPC</span><span class="skill-tag">REST APIs</span><span class="skill-tag">Git</span>
+            </div>
+
+            <div class="prompt-line text-xl">
+                <span class="prompt">root@hamilton:~$</span>
+                <span id="project-command" class="command"></span>
+            </div>
+            <div id="projects-output" class="output space-y-6"></div>
+            <div id="project-controls" class="carousel-controls-container"></div>
+
+            <div class="prompt-line text-xl">
+                <span class="prompt">root@hamilton:~$</span>
+                <span id="experience-command" class="command"></span>
+            </div>
+            <div id="experience-output" class="output space-y-6"></div>
+            <div id="experience-controls" class="carousel-controls-container"></div>
+            
+            <div class="prompt-line text-xl">
+                <span class="prompt">root@hamilton:~$</span>
+                <span id="education-command" class="command"></span>
+            </div>
+            <div id="education-output" class="output space-y-6"></div>
+            <div id="education-controls" class="carousel-controls-container"></div>
+
+            <div class="prompt-line text-xl">
+                <span class="prompt">root@hamilton:~$</span>
+                <span class="command">echo $CONTACT</span>
+            </div>
+            <div class="output flex flex-wrap gap-x-6 gap-y-2 text-lg">
+                <a href="mailto:seuemail@exemplo.com" class="link">Email</a>
+                <a href="#" target="_blank" class="link">GitHub</a>
+                <a href="#" target="_blank" class="link">LinkedIn</a>
+            </div>
+        </main>
+
+        <footer class="prompt-line text-xl mt-8">
+            <span class="prompt">root@hamilton:~$</span>
+            <span class="blinking-cursor">_</span>
+        </footer>
+    </div>
+
+    <div id="item-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title" class="text-xl font-bold"></h2>
+                <button id="modal-close" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-json"></div>
+                <div id="modal-readme" class="readme-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const text = "cat portfolio.txt";
+        const typewriterElement = document.getElementById('typewriter');
+
+        function typeWriter(element, text, callback) {
+            let j = 0;
+            element.innerHTML = '';
+            function type() {
+                if (j < text.length) {
+                    element.innerHTML += text.charAt(j);
+                    j++;
+                    const speed = callback ? 25 : 100;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        const ITEMS_PER_PAGE = 3;
+        const projectsCache = {};
+        const experiencesData = [
+            { role: "Desenvolvedor Backend Sênior", company: "Tech Solutions Inc.", period: "2020 - Presente", responsibilities: ["Desenvolvimento e manutenção de APIs REST e gRPC em Go para processamento de alto volume de dados.", "Otimização de consultas complexas em bancos de dados PostgreSQL, resultando em ganhos de performance de até 40%.", "Liderança na implementação de pipelines de CI/CD com Docker, Kubernetes e Jenkins para automação de deploy."] },
+            { role: "Desenvolvedor Backend Pleno", company: "Inova Web", period: "2018 - 2020", responsibilities: ["Criação de microsserviços com Node.js e Express para um sistema de e-commerce.", "Gerenciamento e modelagem de dados em bancos de dados não-relacionais (MongoDB).", "Colaboração na definição da arquitetura de sistemas distribuídos e comunicação assíncrona com RabbitMQ."] },
+            { role: "Desenvolvedor Backend Júnior", company: "Startup Digital", period: "2017 - 2018", responsibilities: ["Desenvolvimento de endpoints RESTful para aplicações web e mobile.", "Manutenção e refatoração de sistemas legados em PHP.", "Criação de scripts em Python para automação de tarefas de rotina e ETL."] },
+            { role: "Estagiário de Desenvolvimento", company: "Code Factory", period: "2016 - 2017", responsibilities: ["Suporte ao time de desenvolvimento na codificação de novas funcionalidades.", "Execução de testes de software e elaboração de documentação técnica de APIs.", "Correção de bugs e pequenas melhorias em sistemas existentes."] }
+        ];
+        const educationData = [
+            { course: "Pós-graduação em Arquitetura de Software", institution: "Instituto de Tecnologia Avançada", period: "2021 - 2022", details: ["Foco em design patterns, sistemas distribuídos e cloud computing.", "Projeto final sobre arquitetura de microsserviços com gRPC."] },
+            { course: "Bacharelado em Ciência da Computação", institution: "Universidade Federal de Tecnologia", period: "2013 - 2017", details: ["Trabalho de Conclusão de Curso sobre otimização de algoritmos para processamento paralelo.", "Participação em maratonas de programação e projetos de iniciação científica."] }
+        ];
+        const repoUrls = ['https://github.com/torvalds/linux', 'https://github.com/golang/go', 'https://github.com/docker/compose', 'https://github.com/kubernetes/kubernetes', 'https://github.com/facebook/react'];
+
+        let currentProjectPage = 1, currentExperiencePage = 1, currentEducationPage = 1;
+        const totalProjectPages = Math.ceil(repoUrls.length / ITEMS_PER_PAGE);
+        const totalExperiencePages = Math.ceil(experiencesData.length / ITEMS_PER_PAGE);
+        const totalEducationPages = Math.ceil(educationData.length / ITEMS_PER_PAGE);
+
+        const projectsContainer = document.getElementById('projects-output');
+        const projectCommandEl = document.getElementById('project-command');
+        const projectControlsEl = document.getElementById('project-controls');
+        const experienceContainer = document.getElementById('experience-output');
+        const experienceCommandEl = document.getElementById('experience-command');
+        const experienceControlsEl = document.getElementById('experience-controls');
+        const educationContainer = document.getElementById('education-output');
+        const educationCommandEl = document.getElementById('education-command');
+        const educationControlsEl = document.getElementById('education-controls');
+
+        function createProjectHtml(project, isModal = false) { 
+            const formattedName = project.name.replace(/-/g, ' ');
+            const stackString = project.topics.map(topic => `"${topic}"`).join(', ');
+            let description = project.description || 'Repositório sem descrição.';
+            if (!isModal && description.length > 54) {
+                description = description.substring(0, 54) + '...';
+            }
+            const maximizeButton = isModal ? '' : `<button class="maximize-btn" data-type="project" data-id="${project.full_name}" title="Ver detalhes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg></button>`;
+            return `<div class="output-json-container"><pre class="output-json"><code>{
+  <span class="key">"name"</span>: <span class="string">"${formattedName}"</span>,
+  <span class="key">"stack"</span>: <span class="string">[${stackString}]</span>,
+  <span class="key">"description"</span>: <span class="string">"${description}"</span>,
+  <span class="key">"repo_url"</span>: <span class="string">"<a href='${project.html_url}' target='_blank' class='link'>${project.full_name}</a>"</span>
+}</code></pre>${maximizeButton}</div>`;
+        }
+        
+        async function renderProjects() {
+            projectsContainer.innerHTML = '<p class="comment">// Carregando projetos do GitHub...</p>';
+            let projectsHtml = '';
+            const startIndex = (currentProjectPage - 1) * ITEMS_PER_PAGE;
+            const pageUrls = repoUrls.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+            for (const url of pageUrls) {
+                try {
+                    const path = new URL(url).pathname;
+                    if (!projectsCache[path]) {
+                        const apiUrl = `https://api.github.com/repos${path}`;
+                        const response = await fetch(apiUrl);
+                        if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                        projectsCache[path] = await response.json();
+                    }
+                    projectsHtml += createProjectHtml(projectsCache[path]);
+                } catch (error) {
+                    console.error(`Falha ao buscar projeto de ${url}:`, error);
+                    projectsHtml += `<pre class="output-json comment">// Erro ao carregar o projeto: ${url.substring(url.lastIndexOf('/') + 1)}</pre>`;
+                }
+            }
+            projectsContainer.innerHTML = projectsHtml || '<p class="comment">// Nenhum projeto encontrado.</p>';
+            renderControls(projectControlsEl, currentProjectPage, totalProjectPages, 'project');
+        }
+
+        function createExperienceHtml(exp, index, isModal = false) {
+            const responsibilities = isModal ? exp.responsibilities : [exp.responsibilities[0].substring(0, 54) + (exp.responsibilities[0].length > 54 ? '...' : '')];
+            const responsibilitiesString = responsibilities.map(r => `"${r}"`).join(', ');
+            const maximizeButton = isModal ? '' : `<button class="maximize-btn" data-type="experience" data-id="${index}" title="Ver detalhes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg></button>`;
+            return `<div class="output-json-container"><pre class="output-json"><code>{
+  <span class="key">"role"</span>: <span class="string">"${exp.role}"</span>,
+  <span class="key">"company"</span>: <span class="string">"${exp.company}"</span>,
+  <span class="key">"period"</span>: <span class="string">"${exp.period}"</span>,
+  <span class="key">"responsibilities"</span>: <span class="string">[${responsibilitiesString}]</span>
+}</code></pre>${maximizeButton}</div>`;
+        }
+
+        function renderExperience() {
+            let experienceHtml = '';
+            const startIndex = (currentExperiencePage - 1) * ITEMS_PER_PAGE;
+            const pageExperiences = experiencesData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+            pageExperiences.forEach((exp, i) => {
+                experienceHtml += createExperienceHtml(exp, startIndex + i);
+            });
+            experienceContainer.innerHTML = experienceHtml;
+            renderControls(experienceControlsEl, currentExperiencePage, totalExperiencePages, 'exp');
+        }
+
+        function createEducationHtml(edu) {
+            const detailsString = edu.details.map(d => `"${d}"`).join(', ');
+            return `<pre class="output-json"><code>{
+  <span class="key">"course"</span>: <span class="string">"${edu.course}"</span>,
+  <span class="key">"institution"</span>: <span class="string">"${edu.institution}"</span>,
+  <span class="key">"period"</span>: <span class="string">"${edu.period}"</span>,
+  <span class="key">"details"</span>: <span class="string">[${detailsString}]</span>
+}</code></pre>`;
+        }
+
+        function renderEducation() {
+            let educationHtml = '';
+            const startIndex = (currentEducationPage - 1) * ITEMS_PER_PAGE;
+            const pageEducation = educationData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+            pageEducation.forEach(edu => {
+                educationHtml += createEducationHtml(edu);
+            });
+            educationContainer.innerHTML = educationHtml;
+            renderControls(educationControlsEl, currentEducationPage, totalEducationPages, 'edu');
+        }
+
+        function renderControls(element, currentPage, totalPages, type) {
+            let controls = [];
+            if (currentPage > 1) {
+                controls.push(`<span class="carousel-control" data-action="prev-${type}">[anterior]</span>`);
+            }
+            if (currentPage < totalPages) {
+                controls.push(`<span class="carousel-control" data-action="next-${type}">[próximo]</span>`);
+            }
+            element.innerHTML = controls.join(' | ');
+        }
+
+        const modal = document.getElementById('item-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalJsonContainer = document.getElementById('modal-json');
+        const modalReadmeContainer = document.getElementById('modal-readme');
+        const modalCloseBtn = document.getElementById('modal-close');
+
+        async function openModal(type, id) {
+            modalReadmeContainer.style.display = 'none'; // Hide by default
+            if (type === 'project') {
+                const project = Object.values(projectsCache).find(p => p.full_name === id);
+                if (!project) return;
+                modalTitle.textContent = project.name;
+                modalJsonContainer.innerHTML = createProjectHtml(project, true);
+                modalReadmeContainer.innerHTML = '<p class="comment">// Carregando README.md...</p>';
+                modalReadmeContainer.style.display = 'block';
+                try {
+                    const readmeUrl = `https://api.github.com/repos/${id}/readme`;
+                    const response = await fetch(readmeUrl, { headers: { 'Accept': 'application/vnd.github.v3.html' } });
+                    if (!response.ok) throw new Error('README não encontrado.');
+                    modalReadmeContainer.innerHTML = await response.text();
+                } catch (error) {
+                    modalReadmeContainer.innerHTML = '<p class="comment">// README.md não pôde ser carregado.</p>';
+                }
+            } else if (type === 'experience') {
+                const exp = experiencesData[id];
+                if (!exp) return;
+                modalTitle.textContent = exp.role;
+                modalJsonContainer.innerHTML = createExperienceHtml(exp, id, true);
+            }
+            modal.classList.remove('hidden');
+        }
+        function closeModal() { modal.classList.add('hidden'); }
+
+        document.addEventListener('click', (e) => {
+            const action = e.target.dataset.action;
+            if (action) {
+                const [direction, type] = action.split('-');
+                let newCommand = '';
+                if (type === 'project') {
+                    currentProjectPage += (direction === 'next' ? 1 : -1);
+                    newCommand = `./get_projects.sh --page ${currentProjectPage} | format-json`;
+                    typeWriter(projectCommandEl, newCommand, renderProjects);
+                } else if (type === 'exp') {
+                    currentExperiencePage += (direction === 'next' ? 1 : -1);
+                    newCommand = `./get_experience.sh --page ${currentExperiencePage} | format-json`;
+                    typeWriter(experienceCommandEl, newCommand, renderExperience);
+                } else if (type === 'edu') {
+                    currentEducationPage += (direction === 'next' ? 1 : -1);
+                    newCommand = `./get_education.sh --page ${currentEducationPage} | format-json`;
+                    typeWriter(educationCommandEl, newCommand, renderEducation);
+                }
+            }
+            const maximizeButton = e.target.closest('.maximize-btn');
+            if (maximizeButton) {
+                openModal(maximizeButton.dataset.type, maximizeButton.dataset.id);
+            }
+        });
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        window.onload = function() {
+            typeWriter(typewriterElement, "cat portfolio.txt");
+            typeWriter(projectCommandEl, `./get_projects.sh --page ${currentProjectPage} | format-json`, renderProjects);
+            typeWriter(experienceCommandEl, `./get_experience.sh --page ${currentExperiencePage} | format-json`, renderExperience);
+            typeWriter(educationCommandEl, `./get_education.sh --page ${currentEducationPage} | format-json`, renderEducation);
+        };
+    </script>
+
+</body>
+</html>

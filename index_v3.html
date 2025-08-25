@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Nome - Desenvolvedor Backend</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #1a1b26; /* Um fundo escuro, tipo editor de código */
+            color: #c0caf5; /* Texto claro e suave */
+        }
+        .terminal-header {
+            background-color: #24283b;
+            border-bottom: 1px solid #414868;
+        }
+        .prompt {
+            color: #7aa2f7; /* Cor azul para o prompt */
+        }
+        .command {
+            color: #a9b1d6; /* Cor do texto do comando */
+        }
+        .output {
+            color: #9ece6a; /* Cor verde para a saída */
+        }
+        a {
+            color: #bb9af7; /* Cor roxa para links */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .card {
+            background-color: #24283b;
+            border: 1px solid #414868;
+        }
+        h2 {
+           border-bottom: 2px solid #7aa2f7;
+           padding-bottom: 8px;
+           margin-bottom: 24px;
+           color: #c0caf5;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+
+        <!-- Cabeçalho -->
+        <header class="mb-12">
+            <div class="flex items-center space-x-4">
+                <span class="text-2xl prompt">root@hamilton:~$</span>
+                <h1 id="typewriter" class="text-2xl command"></h1>
+            </div>
+        </header>
+
+        <main>
+            <!-- Seção Sobre Mim -->
+            <section id="about" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6">// Sobre Mim</h2>
+                <div class="text-lg space-y-4 leading-relaxed">
+                    <p>Desenvolvedor Backend com foco em criar APIs robustas, escaláveis e eficientes. Minha paixão é resolver problemas complexos do lado do servidor, otimizar a performance de bancos de dados e construir a espinha dorsal de aplicações de alta performance.</p>
+                    <p>Tenho experiência sólida em <span class="output">Go (Golang)</span> e <span class="output">Node.js</span>, utilizando essas tecnologias para entregar soluções limpas e bem documentadas. Acredito em código simples, testes automatizados e entrega contínua.</p>
+                </div>
+            </section>
+
+            <!-- Seção de Habilidades -->
+            <section id="skills" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6">// Habilidades</h2>
+                <div class="flex flex-wrap gap-4">
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">Go (Golang)</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">Node.js</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">PostgreSQL</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">MongoDB</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">Docker</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">Kubernetes</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">gRPC</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">REST APIs</span>
+                    <span class="bg-gray-700 text-green-400 px-4 py-2 rounded-md text-lg">Git</span>
+                </div>
+            </section>
+
+            <!-- Seção de Projetos -->
+            <section id="projects" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6">// Projetos Principais</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Projeto 1 -->
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-2 output">API de Microsserviços para E-commerce</h3>
+                        <p class="mb-4">Arquitetura de microsserviços em Go para gerenciar produtos, usuários e pedidos. Comunicação via gRPC para alta performance e baixa latência. Deploy automatizado com Docker e Kubernetes.</p>
+                        <a href="#" target="_blank" class="font-semibold">Ver no GitHub &rarr;</a>
+                    </div>
+                    <!-- Projeto 2 -->
+                    <div class="card p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-2 output">Sistema de Processamento de Pagamentos</h3>
+                        <p class="mb-4">Backend em Node.js com Express para processar transações de forma segura. Integração com gateways de pagamento e implementação de filas com RabbitMQ para lidar com picos de requisições.</p>
+                        <a href="#" target="_blank" class="font-semibold">Ver no GitHub &rarr;</a>
+                    </div>
+                     <!-- Adicione mais projetos aqui -->
+                </div>
+            </section>
+
+            <!-- Seção de Contato -->
+            <section id="contact">
+                <h2 class="text-3xl font-bold mb-6">// Contato</h2>
+                <p class="text-lg mb-4">Interessado em colaborar? Entre em contato.</p>
+                <div class="flex items-center space-x-6 text-lg">
+                    <a href="mailto:seuemail@exemplo.com" class="hover:underline">Email</a>
+                    <a href="#" target="_blank" class="hover:underline">GitHub</a>
+                    <a href="#" target="_blank" class="hover:underline">LinkedIn</a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="text-center mt-12 pt-6 border-t border-gray-700">
+            <p class="text-gray-500">Feito com HTML, TailwindCSS e um pouco de JS.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Efeito de digitação simples
+        const text = "cat portfolio.txt";
+        const typewriterElement = document.getElementById('typewriter');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                typewriterElement.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100); // Ajuste a velocidade aqui
+            } else {
+                // Adiciona um cursor piscando no final
+                typewriterElement.innerHTML += '<span class="animate-ping">_</span>';
+            }
+        }
+
+        window.onload = function() {
+            typeWriter();
+        };
+    </script>
+
+</body>
+</html>
