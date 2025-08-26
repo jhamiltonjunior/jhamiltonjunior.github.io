@@ -138,7 +138,7 @@
         </div>
 
         <main>
-            <div class="prompt-line text-xl">
+            <div class="prompt-line text-xl mt-12">
                 <span class="prompt">root@hamilton:~$</span>
                 <span class="command">cat ./sobre.md</span>
             </div>
@@ -147,7 +147,7 @@
                 <p>> Tenho experiência sólida em <span class="output">Go (Golang)</span> e <span class="output">Node.js</span>, utilizando essas tecnologias para entregar soluções limpas e bem documentadas. Acredito em código simples, testes automatizados e entrega contínua.</p>
             </div>
 
-            <div class="prompt-line text-xl">
+            <div class="prompt-line text-xl mt-12">
                 <span class="prompt">root@hamilton:~$</span>
                 <span class="command">list-skills --tech</span>
             </div>
@@ -163,14 +163,14 @@
                 <span class="skill-tag">GitHub</span>
             </div>
 
-            <div class="prompt-line text-xl">
+            <div class="prompt-line text-xl mt-12">
                 <span class="prompt">root@hamilton:~$</span>
                 <span id="project-command" class="command"></span>
             </div>
             <div id="projects-output" class="output space-y-6"></div>
             <div id="project-controls" class="carousel-controls-container"></div>
 
-            <div class="prompt-line text-xl">
+            <div class="prompt-line text-xl mt-12">
                 <span class="prompt">root@hamilton:~$</span>
                 <span id="experience-command" class="command"></span>
             </div>
@@ -184,18 +184,18 @@
             <div id="education-output" class="output space-y-6"></div>
             <div id="education-controls" class="carousel-controls-container"></div>
 
-            <div class="prompt-line text-xl">
+            <div class="prompt-line text-xl mt-12">
                 <span class="prompt">root@hamilton:~$</span>
                 <span class="command">echo $CONTACT</span>
             </div>
             <div class="output flex flex-wrap gap-x-6 gap-y-2 text-lg">
-                <a href="mailto:seuemail@exemplo.com" class="link">Email</a>
-                <a href="#" target="_blank" class="link">GitHub</a>
-                <a href="#" target="_blank" class="link">LinkedIn</a>
+                <a href="mailto:josehamiltonsantosjunior@gmail.com" class="link">Email</a>
+                <a href="https://github.com/jhamiltonjunior" target="_blank" class="link">GitHub</a>
+                <a href="https://www.linkedin.com/in/jhamiltonjunior" target="_blank" class="link">LinkedIn</a>
             </div>
         </main>
 
-        <footer class="prompt-line text-xl mt-8">
+        <footer class="prompt-line text-xl mt-12">
             <span class="prompt">root@hamilton:~$</span>
             <span class="blinking-cursor">_</span>
         </footer>
@@ -237,12 +237,17 @@
         const ITEMS_PER_PAGE = 3;
         const projectsCache = {};
         const experiencesData = [
-            { role: "Desenvolvedor Backend Júnior", company: "Edutec Sistemas e Tecnologia", period: "Jul/2023 - o momento", responsibilities: ["Desenvolvimento de endpoints RESTful para aplicações web.", "Manutenção e refatoração de sistemas legados em PHP.", "Criação de scripts em Python para automação de tarefas de rotina e ETL."] },
+            { role: "Desenvolvedor Backend Júnior", company: "Edutec Sistemas e Tecnologia", period: "Jul/2023 - o momento", responsibilities: ["Desenvolvimento de endpoints RESTful para aplicações web.", "Criação, manutenção e refatoração de sistemas.", "Melhoria em performance e escalabilidade de aplicações e de bancos de dados."] },
         ];
         const educationData = [
-            { course: "Bacharelado em Emgenharia de Software", institution: "Universidade Estácio de Sá", period: "Nov/2022 - O momento", details: ["Trabalho de Conclusão de Curso sobre otimização de algoritmos para processamento paralelo.", "Participação em maratonas de programação e projetos de iniciação científica."] }
+            { course: "Bacharelado em Engenharia de Software", institution: "Universidade Estácio de Sá", period: "Nov/2022 - O momento", details: ["Trabalho de Conclusão de Curso sobre otimização de algoritmos para processamento paralelo.", "Participação em maratonas de programação e projetos de iniciação científica."] }
         ];
-        const repoUrls = ['https://github.com/torvalds/linux', 'https://github.com/golang/go', 'https://github.com/docker/compose', 'https://github.com/kubernetes/kubernetes', 'https://github.com/facebook/react'];
+        const repoUrls = [
+            'https://github.com/jhamiltonjunior/rinha-de-backend',
+            'https://github.com/jhamiltonjunior/give-me-my-bank-shares',
+            'https://github.com/jhamiltonjunior/artificial-intelligence-image-analyzer',
+            'https://github.com/jhamiltonjunior/microsservice-to-sendding-mail-nestjs'
+        ];
 
         let currentProjectPage = 1, currentExperiencePage = 1, currentEducationPage = 1;
         const totalProjectPages = Math.ceil(repoUrls.length / ITEMS_PER_PAGE);
@@ -416,7 +421,7 @@
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
         window.onload = function() {
-            typeWriter(typewriterElement, "cat portfolio.txt");
+            typeWriter(typewriterElement, "cat Hamilton-Portfolio.txt");
             typeWriter(projectCommandEl, `./get_projects.sh --page ${currentProjectPage} | format-json`, renderProjects);
             typeWriter(experienceCommandEl, `./get_experience.sh --page ${currentExperiencePage} | format-json`, renderExperience);
             typeWriter(educationCommandEl, `./get_education.sh --page ${currentEducationPage} | format-json`, renderEducation);
