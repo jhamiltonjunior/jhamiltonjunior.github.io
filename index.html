@@ -1,432 +1,1093 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamilton - Desenvolvedor Backend</title>
-    <link rel="icon" type="image/png" href="./icon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Fira Code', monospace;
-            background-color: #1a1b26;
-            color: #c0caf5;
-        }
-        .prompt-line {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-        .prompt {
-            color: #7aa2f7;
-            font-weight: 700;
-        }
-        .command {
-            color: #a9b1d6;
-        }
-        .output {
-            padding-left: 0.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem; 
-            word-break: break-word;
-        }
-        .output-json-container {
-            position: relative;
-        }
-        .output-json {
-            background-color: #24283b;
-            border-left: 3px solid #9ece6a;
-            padding: 1rem;
-            border-radius: 4px;
-            font-size: 0.9em;
-            white-space: pre-wrap;
-        }
-        .key { color: #bb9af7; }
-        .string { color: #9ece6a; }
-        .link { color: #7dcfff; text-decoration: underline; }
-        .link:hover { color: #a9b1d6; }
-        .comment { color: #5c6370; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hamilton Jr. — Desenvolvimento de Software & Consultoria Técnica</title>
+  <meta name="description" content="Desenvolvimento fullstack com Go, Node.js e React. APIs, integrações, infraestrutura Kubernetes e automações com IA para empresas que precisam de resultado." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .skill-tag {
-            background-color: #24283b;
-            color: #9ece6a;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            border: 1px solid #414868;
-            display: inline-block;
-        }
+    :root {
+      --blue: #1d72d2;
+      --blue-light: #38b6ff;
+      --blue-bg: #e8f2fd;
+      --blue-bg2: #f0f7ff;
+      --teal: #44af86;
+      --dark: #0b1523;
+      --text: #2c3a4a;
+      --muted: #5a6a7a;
+      --border: #e2e8f0;
+      --white: #ffffff;
+    }
 
-        .blinking-cursor {
-            font-weight: bold;
-            color: #c0caf5;
-            animation: blink 1s step-end infinite;
-        }
-        @keyframes blink {
-            from, to { color: transparent; }
-            50% { color: #c0caf5; }
-        }
-        
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(26, 27, 38, 0.8);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; padding: 1rem;
-        }
-        .modal-content {
-            background-color: #24283b; border: 1px solid #414868; border-radius: 8px;
-            width: 100%; max-width: 800px; max-height: 90vh;
-            overflow-y: auto; position: relative;
-        }
-        .modal-header {
-            padding: 1rem; border-bottom: 1px solid #414868;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .modal-body { padding: 1rem; }
-        .modal-close-btn {
-            background: none; border: none; color: #c0caf5;
-            font-size: 1.5rem; cursor: pointer;
-        }
-        .maximize-btn {
-            position: absolute; top: 0.5rem; right: 0.5rem;
-            background-color: #414868; border: none; color: #c0caf5;
-            cursor: pointer; padding: 0.25rem; border-radius: 4px;
-            opacity: 0.7; transition: opacity 0.2s;
-        }
-        .maximize-btn:hover { opacity: 1; }
-        .readme-content {
-            margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #414868;
-        }
-        .readme-content h1, .readme-content h2, .readme-content h3 {
-            color: #c0caf5; border-bottom: 1px solid #414868;
-            padding-bottom: 0.5rem; margin-top: 1.5rem; margin-bottom: 1rem;
-        }
-        .readme-content p { margin-bottom: 1rem; }
-        .readme-content a { color: #7dcfff; }
-        .readme-content code { background-color: #1a1b26; padding: 0.2rem 0.4rem; border-radius: 4px; }
-        .readme-content pre { background-color: #1a1b26; padding: 1rem; border-radius: 4px; overflow-x: auto; }
-        
-        .carousel-controls-container {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            color: #a9b1d6;
-        }
-        .carousel-control {
-            color: #bb9af7;
-            cursor: pointer;
-        }
-        .carousel-control:hover {
-            text-decoration: underline;
-        }
-    </style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1d72d2, #38b6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: -0.5px;
+      flex-shrink: 0;
+    }
+    .logo-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: -0.4px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue);
+      color: #fff !important;
+      font-weight: 700 !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 13px !important;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+    .nav-cta:hover {
+      background: #1660b8 !important;
+      transform: translateY(-1px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(180deg, #f4f9ff 0%, #fff 70%);
+      padding: 88px 24px 96px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse at 60% 40%, rgba(56,182,255,0.13) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: 5%;
+      width: 400px; height: 400px;
+      background: radial-gradient(ellipse at 50% 50%, rgba(68,175,134,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid #c8ddf5;
+      border-radius: 100px;
+      padding: 6px 16px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 8px rgba(29,114,210,0.08);
+    }
+    .pulse-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .hero-badge span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.08;
+      letter-spacing: -2.5px;
+      max-width: 720px;
+      margin-bottom: 22px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+    .hero-sub strong { color: var(--dark); font-weight: 600; }
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 64px;
+    }
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 10px;
+      letter-spacing: 0.1px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #1660b8; transform: translateY(-2px); }
+    .btn-secondary {
+      background: #fff;
+      color: var(--blue);
+      border: 1.5px solid #c8ddf5;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 26px;
+      border-radius: 10px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      max-width: 560px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .stat {
+      flex: 1;
+      padding: 20px 24px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-val {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -1.5px;
+      line-height: 1;
+    }
+    .stat-val span { color: var(--blue); }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 5px;
+      line-height: 1.3;
+    }
+
+    /* ── LOGOS (clients/tech trust bar) ── */
+    .trust {
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 24px;
+    }
+    .trust-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .trust-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9aabb8;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .trust-techs {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .tech-pill {
+      font-size: 13px;
+      font-weight: 700;
+      color: #7a8fa0;
+      letter-spacing: 0.2px;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 88px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--blue-bg);
+      padding: 5px 12px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.65;
+      margin-bottom: 56px;
+    }
+
+    /* ── SERVIÇOS ── */
+    .servicos { background: #fff; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .service-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .service-card:hover {
+      border-color: #b0cff4;
+      box-shadow: 0 8px 32px rgba(29,114,210,0.09);
+      transform: translateY(-3px);
+    }
+    .service-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--blue-bg);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .service-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
+    }
+    .service-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-bg);
+      padding: 4px 10px;
+      border-radius: 5px;
+      letter-spacing: 0.1px;
+    }
+
+    /* ── RESULTADOS ── */
+    .resultados { background: var(--blue); padding: 72px 24px; }
+    .resultados .section-title { color: #fff; }
+    .resultados .section-sub { color: rgba(255,255,255,0.7); }
+    .resultados .section-tag { background: rgba(255,255,255,0.15); color: #fff; }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .result-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 28px 28px;
+      backdrop-filter: blur(4px);
+    }
+    .result-num {
+      font-size: 42px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .result-num span { color: rgba(255,255,255,0.6); font-size: 24px; }
+    .result-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    /* ── PROJETOS ── */
+    .projetos { background: #f8fafc; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .project-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .project-card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      transform: translateY(-4px);
+    }
+    .project-header {
+      padding: 28px 28px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .project-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .project-icon.blue { background: var(--blue-bg); }
+    .project-icon.teal { background: #e0f5ed; }
+    .project-icon.amber { background: #fff4e0; }
+    .project-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 5px;
+    }
+    .project-badge.prod { background: #e0f5ed; color: #0d7a52; }
+    .project-badge.arch { background: var(--blue-bg); color: var(--blue); }
+    .project-body { padding: 20px 28px 28px; }
+    .project-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+    .project-body p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .stack-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6a7b8a;
+      background: #f0f4f8;
+      padding: 4px 10px;
+      border-radius: 5px;
+    }
+
+    /* ── STACK ── */
+    .stack-section { background: #fff; }
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .stack-category {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .stack-category-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .stack-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stack-item {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stack-item::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      flex-shrink: 0;
+    }
+
+    /* ── SOBRE ── */
+    .sobre { background: #f8fafc; }
+    .sobre-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .sobre-avatar {
+      width: 72px; height: 72px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1d72d2, #38b6ff);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+    .sobre-text h2 {
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .sobre-text p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    .sobre-text p strong { color: var(--text); font-weight: 600; }
+    .sobre-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .highlight-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+    .highlight-card:hover { border-color: #b0cff4; }
+    .hi-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--blue-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .hi-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 3px;
+    }
+    .hi-content p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── CTA FINAL ── */
+    .cta-section {
+      background: linear-gradient(135deg, #1d72d2 0%, #1560be 100%);
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -2px;
+      margin-bottom: 14px;
+      line-height: 1.1;
+    }
+    .cta-section p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-white {
+      background: #fff;
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 10px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 26px;
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer-logo .logo-mark {
+      width: 32px; height: 32px;
+      font-size: 11px;
+    }
+    .footer-logo span {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.9); }
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 20px 64px; }
+      .hero-stats { flex-direction: column; max-width: 100%; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+      .sobre-grid { grid-template-columns: 1fr; gap: 40px; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      section { padding: 64px 20px; }
+    }
+  </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
-        <div class="prompt-line text-xl sm:text-2xl mb-4">
-            <span class="prompt">root@hamilton:~$</span>
-            <span id="typewriter" class="command"></span>
-        </div>
-        
-        <div class="output comment mb-12">
-            // Olá! Bem-vindo ao meu portfólio. As seções abaixo simulam comandos de um terminal para apresentar minhas informações.
-        </div>
-
-        <main>
-            <div class="prompt-line text-xl mt-12">
-                <span class="prompt">root@hamilton:~$</span>
-                <span class="command">cat ./sobre.md</span>
-            </div>
-            <div class="output text-lg leading-relaxed">
-                <p class="mb-4">> Desenvolvedor Backend com foco em criar APIs robustas, escaláveis e eficientes. Minha paixão é resolver problemas complexos do lado do servidor, otimizar a performance de bancos de dados e construir a espinha dorsal de aplicações de alta performance.</p>
-                <p>> Tenho experiência sólida em <span class="output">Go (Golang)</span> e <span class="output">Node.js</span>, utilizando essas tecnologias para entregar soluções limpas e bem documentadas. Acredito em código simples, testes automatizados e entrega contínua.</p>
-            </div>
-
-            <div class="prompt-line text-xl mt-12">
-                <span class="prompt">root@hamilton:~$</span>
-                <span class="command">list-skills --tech</span>
-            </div>
-            <div class="output flex flex-wrap gap-3 text-lg">
-                <span class="skill-tag">Go (Golang)</span>
-                <span class="skill-tag">Node.js</span>
-                <span class="skill-tag">PostgreSQL</span>
-                <span class="skill-tag">MySQL</span>
-                <span class="skill-tag">MongoDB</span>
-                <span class="skill-tag">Docker</span>
-                <span class="skill-tag">REST APIs</span>
-                <span class="skill-tag">Git</span>
-                <span class="skill-tag">GitHub</span>
-            </div>
-
-            <div class="prompt-line text-xl mt-12">
-                <span class="prompt">root@hamilton:~$</span>
-                <span id="project-command" class="command"></span>
-            </div>
-            <div id="projects-output" class="output space-y-6"></div>
-            <div id="project-controls" class="carousel-controls-container"></div>
-
-            <div class="prompt-line text-xl mt-12">
-                <span class="prompt">root@hamilton:~$</span>
-                <span id="experience-command" class="command"></span>
-            </div>
-            <div id="experience-output" class="output space-y-6"></div>
-            <div id="experience-controls" class="carousel-controls-container"></div>
-            
-            <div class="prompt-line text-xl">
-                <span class="prompt">root@hamilton:~$</span>
-                <span id="education-command" class="command"></span>
-            </div>
-            <div id="education-output" class="output space-y-6"></div>
-            <div id="education-controls" class="carousel-controls-container"></div>
-
-            <div class="prompt-line text-xl mt-12">
-                <span class="prompt">root@hamilton:~$</span>
-                <span class="command">echo $CONTACT</span>
-            </div>
-            <div class="output flex flex-wrap gap-x-6 gap-y-2 text-lg">
-                <a href="mailto:josehamiltonsantosjunior@gmail.com" class="link">Email</a>
-                <a href="https://github.com/jhamiltonjunior" target="_blank" class="link">GitHub</a>
-                <a href="https://www.linkedin.com/in/jhamiltonjunior" target="_blank" class="link">LinkedIn</a>
-            </div>
-        </main>
-
-        <footer class="prompt-line text-xl mt-12">
-            <span class="prompt">root@hamilton:~$</span>
-            <span class="blinking-cursor">_</span>
-        </footer>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="logo-mark">HJ</div>
+        <span class="logo-name">Hamilton Jr.</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="mailto:hamiltonjr.dev@gmail.com@gmail.com" class="nav-cta">Falar com Hamilton</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <div id="item-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title" class="text-xl font-bold"></h2>
-                <button id="modal-close" class="modal-close-btn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="modal-json"></div>
-                <div id="modal-readme" class="readme-content"></div>
-            </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span>Disponível para novos projetos</span>
+      </div>
+
+      <h1>
+        Sistemas que funcionam<br>
+        quando seu negócio <em>precisa crescer.</em>
+      </h1>
+
+      <p class="hero-sub">
+        Desenvolvimento fullstack com <strong>Go, Node.js e React</strong> — APIs robustas, automações com IA e infraestrutura Kubernetes para empresas que precisam de um parceiro técnico, não só de um desenvolvedor.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#projetos" class="btn-primary">Ver projetos →</a>
+        <a href="mailto:hamiltonjr.dev@gmail.com@gmail.com" class="btn-secondary">Agendar conversa</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-val">8s→<span>300ms</span></div>
+          <div class="stat-label">latência de APIs críticas</div>
         </div>
+        <div class="stat">
+          <div class="stat-val">35<span>+</span></div>
+          <div class="stat-label">containers em produção</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">10k<span>+</span></div>
+          <div class="stat-label">mensagens/hora com RabbitMQ</div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <script>
-        const text = "cat portfolio.txt";
-        const typewriterElement = document.getElementById('typewriter');
+  <!-- TRUST BAR -->
+  <div class="trust">
+    <div class="trust-inner">
+      <span class="trust-label">Stack principal</span>
+      <div class="trust-techs">
+        <span class="tech-pill">Go (Gin)</span>
+        <span class="tech-pill">·</span>
+        <span class="tech-pill">Node.js</span>
+        <span class="tech-pill">·</span>
+        <span class="tech-pill">React / Next.js</span>
+        <span class="tech-pill">·</span>
+        <span class="tech-pill">Kubernetes</span>
+        <span class="tech-pill">·</span>
+        <span class="tech-pill">Docker</span>
+        <span class="tech-pill">·</span>
+        <span class="tech-pill">PostgreSQL</span>
+        <span class="tech-pill">·</span>
+        <span class="tech-pill">RabbitMQ</span>
+        <span class="tech-pill">·</span>
+        <span class="tech-pill">Redis</span>
+      </div>
+    </div>
+  </div>
 
-        function typeWriter(element, text, callback) {
-            let j = 0;
-            element.innerHTML = '';
-            function type() {
-                if (j < text.length) {
-                    element.innerHTML += text.charAt(j);
-                    j++;
-                    const speed = callback ? 25 : 100;
-                    setTimeout(type, speed);
-                } else if (callback) {
-                    callback();
-                }
-            }
-            type();
-        }
+  <!-- SERVIÇOS -->
+  <section class="servicos" id="servicos">
+    <div class="section-inner">
+      <span class="section-tag">O que eu entrego</span>
+      <h2 class="section-title">Soluções que resolvem<br>problemas reais de negócio</h2>
+      <p class="section-sub">
+        Cada projeto começa pelo problema do seu negócio, não pela tecnologia. A stack vem depois.
+      </p>
 
-        const ITEMS_PER_PAGE = 3;
-        const projectsCache = {};
-        const experiencesData = [
-            { role: "Desenvolvedor Backend Júnior", company: "Edutec Sistemas e Tecnologia", period: "Jul/2023 - o momento", responsibilities: ["Desenvolvimento de endpoints RESTful para aplicações web.", "Criação, manutenção e refatoração de sistemas.", "Melhoria em performance e escalabilidade de aplicações e de bancos de dados."] },
-        ];
-        const educationData = [
-            { course: "Bacharelado em Engenharia de Software", institution: "Universidade Estácio de Sá", period: "Nov/2022 - O momento", details: ["Com foco em desenvolvimento de software e engenharia de requisitos.", "Participação em maratonas de programação e projetos de iniciação científica."] }
-        ];
-        const repoUrls = [
-            'https://github.com/jhamiltonjunior/rinha-de-backend',
-            'https://github.com/jhamiltonjunior/give-me-my-bank-shares',
-            'https://github.com/jhamiltonjunior/artificial-intelligence-image-analyzer',
-            'https://github.com/jhamiltonjunior/microsservice-to-sendding-mail-nestjs'
-        ];
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🔗</div>
+          <h3>APIs e Integrações</h3>
+          <p>WhatsApp Business, CRMs, ERPs, Mercado Livre, calendários e qualquer API que o seu sistema ainda não fala. Automações que eliminam trabalho manual e aumentam a velocidade do seu time.</p>
+          <div class="service-tags">
+            <span class="tag">WhatsApp API</span>
+            <span class="tag">Webhooks</span>
+            <span class="tag">REST/GraphQL</span>
+            <span class="tag">Go · Node.js</span>
+          </div>
+        </div>
 
-        let currentProjectPage = 1, currentExperiencePage = 1, currentEducationPage = 1;
-        const totalProjectPages = Math.ceil(repoUrls.length / ITEMS_PER_PAGE);
-        const totalExperiencePages = Math.ceil(experiencesData.length / ITEMS_PER_PAGE);
-        const totalEducationPages = Math.ceil(educationData.length / ITEMS_PER_PAGE);
+        <div class="service-card">
+          <div class="service-icon">⚙️</div>
+          <h3>Sistemas e Plataformas</h3>
+          <p>Backends escaláveis, dashboards, SaaS multi-tenant e sistemas de gestão. Do banco de dados ao frontend React — entregue com documentação, testes e CI/CD configurado.</p>
+          <div class="service-tags">
+            <span class="tag">SaaS</span>
+            <span class="tag">React / Next.js</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Microsserviços</span>
+          </div>
+        </div>
 
-        const projectsContainer = document.getElementById('projects-output');
-        const projectCommandEl = document.getElementById('project-command');
-        const projectControlsEl = document.getElementById('project-controls');
-        const experienceContainer = document.getElementById('experience-output');
-        const experienceCommandEl = document.getElementById('experience-command');
-        const experienceControlsEl = document.getElementById('experience-controls');
-        const educationContainer = document.getElementById('education-output');
-        const educationCommandEl = document.getElementById('education-command');
-        const educationControlsEl = document.getElementById('education-controls');
+        <div class="service-card">
+          <div class="service-icon">☁️</div>
+          <h3>DevOps e Infraestrutura</h3>
+          <p>Containerização, orquestração Kubernetes, pipelines CI/CD e monitoramento. Migração de ambientes legados para cloud sem downtime e com custo sob controle.</p>
+          <div class="service-tags">
+            <span class="tag">Kubernetes</span>
+            <span class="tag">Docker</span>
+            <span class="tag">GitHub Actions</span>
+            <span class="tag">AWS · GCP · DO</span>
+          </div>
+        </div>
 
-        function createProjectHtml(project, isModal = false) { 
-            const formattedName = project.name.replace(/-/g, ' ');
-            const stackString = project.topics.map(topic => `"${topic}"`).join(', ');
-            let description = project.description || 'Repositório sem descrição.';
-            if (!isModal && description.length > 54) {
-                description = description.substring(0, 54) + '...';
-            }
-            const maximizeButton = isModal ? '' : `<button class="maximize-btn" data-type="project" data-id="${project.full_name}" title="Ver detalhes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg></button>`;
-            return `<div class="output-json-container"><pre class="output-json"><code>{
-  <span class="key">"name"</span>: <span class="string">"${formattedName}"</span>,
-  <span class="key">"stack"</span>: <span class="string">[${stackString}]</span>,
-  <span class="key">"description"</span>: <span class="string">"${description}"</span>,
-  <span class="key">"repo_url"</span>: <span class="string">"<a href='${project.html_url}' target='_blank' class='link'>${project.full_name}</a>"</span>
-}</code></pre>${maximizeButton}</div>`;
-        }
-        
-        async function renderProjects() {
-            projectsContainer.innerHTML = '<p class="comment">// Carregando projetos do GitHub...</p>';
-            let projectsHtml = '';
-            const startIndex = (currentProjectPage - 1) * ITEMS_PER_PAGE;
-            const pageUrls = repoUrls.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-            for (const url of pageUrls) {
-                try {
-                    const path = new URL(url).pathname;
-                    if (!projectsCache[path]) {
-                        const apiUrl = `https://api.github.com/repos${path}`;
-                        const response = await fetch(apiUrl);
-                        if (!response.ok) throw new Error(`API Error: ${response.status}`);
-                        projectsCache[path] = await response.json();
-                    }
-                    projectsHtml += createProjectHtml(projectsCache[path]);
-                } catch (error) {
-                    console.error(`Falha ao buscar projeto de ${url}:`, error);
-                    projectsHtml += `<pre class="output-json comment">// Erro ao carregar o projeto: ${url.substring(url.lastIndexOf('/') + 1)}</pre>`;
-                }
-            }
-            projectsContainer.innerHTML = projectsHtml || '<p class="comment">// Nenhum projeto encontrado.</p>';
-            renderControls(projectControlsEl, currentProjectPage, totalProjectPages, 'project');
-        }
+        <div class="service-card">
+          <div class="service-icon">🤖</div>
+          <h3>Automação com IA</h3>
+          <p>Agentes conversacionais para WhatsApp, agendamentos automáticos com voz humana e fluxos de atendimento inteligentes. IA que funciona em produção, não só em demo.</p>
+          <div class="service-tags">
+            <span class="tag">LLM / Agentes</span>
+            <span class="tag">ElevenLabs</span>
+            <span class="tag">OpenRouter</span>
+            <span class="tag">Prompt Eng.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        function createExperienceHtml(exp, index, isModal = false) {
-            const responsibilities = isModal ? exp.responsibilities : [exp.responsibilities[0].substring(0, 54) + (exp.responsibilities[0].length > 54 ? '...' : '')];
-            const responsibilitiesString = responsibilities.map(r => `"${r}"`).join(', ');
-            const maximizeButton = isModal ? '' : `<button class="maximize-btn" data-type="experience" data-id="${index}" title="Ver detalhes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg></button>`;
-            return `<div class="output-json-container"><pre class="output-json"><code>{
-  <span class="key">"role"</span>: <span class="string">"${exp.role}"</span>,
-  <span class="key">"company"</span>: <span class="string">"${exp.company}"</span>,
-  <span class="key">"period"</span>: <span class="string">"${exp.period}"</span>,
-  <span class="key">"responsibilities"</span>: <span class="string">[${responsibilitiesString}]</span>
-}</code></pre>${maximizeButton}</div>`;
-        }
+  <!-- RESULTADOS -->
+  <section class="resultados">
+    <div class="section-inner">
+      <span class="section-tag">Números reais</span>
+      <h2 class="section-title">Resultado que aparece<br>nos dashboards do cliente</h2>
+      <p class="section-sub">
+        Não só código que funciona — código que move métricas de negócio.
+      </p>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-num">96<span>%</span></div>
+          <div class="result-desc">Redução na latência de APIs críticas (de 8s para 300ms)</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">70<span>%</span></div>
+          <div class="result-desc">Menos trabalho manual no suporte — 10h/semana liberadas para atividades estratégicas</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">35<span>%</span></div>
+          <div class="result-desc">Queda em bugs de produção após implementação de padrões Clean Code e code review</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">100<span>%</span></div>
+          <div class="result-desc">Conformidade Meta na implementação da API oficial do WhatsApp — zero banimentos</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        function renderExperience() {
-            let experienceHtml = '';
-            const startIndex = (currentExperiencePage - 1) * ITEMS_PER_PAGE;
-            const pageExperiences = experiencesData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-            pageExperiences.forEach((exp, i) => {
-                experienceHtml += createExperienceHtml(exp, startIndex + i);
-            });
-            experienceContainer.innerHTML = experienceHtml;
-            renderControls(experienceControlsEl, currentExperiencePage, totalExperiencePages, 'exp');
-        }
+  <!-- PROJETOS -->
+  <section class="projetos" id="projetos">
+    <div class="section-inner">
+      <span class="section-tag">Projetos</span>
+      <h2 class="section-title">Sistemas que já estão<br>rodando em produção</h2>
+      <p class="section-sub">
+        Projetos reais, com desafios reais e resultados mensuráveis.
+      </p>
 
-        function createEducationHtml(edu) {
-            const detailsString = edu.details.map(d => `"${d}"`).join(', ');
-            return `<pre class="output-json"><code>{
-  <span class="key">"course"</span>: <span class="string">"${edu.course}"</span>,
-  <span class="key">"institution"</span>: <span class="string">"${edu.institution}"</span>,
-  <span class="key">"period"</span>: <span class="string">"${edu.period}"</span>,
-  <span class="key">"details"</span>: <span class="string">[${detailsString}]</span>
-}</code></pre>`;
-        }
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-icon blue">🤖</div>
+            <span class="project-badge prod">Produção</span>
+          </div>
+          <div class="project-body">
+            <h3>Plataforma de IA com Voz — Edutec / Leavo AI</h3>
+            <p>Orquestração de agentes de IA integrados ao Google Calendar e ElevenLabs, permitindo agendamentos automáticos e follow-ups com voz humana em tempo real. Automação do WhatsApp Business com 100% de conformidade Meta, eliminando banimento de números.</p>
+            <div class="project-stack">
+              <span class="stack-tag">Go · Gin</span>
+              <span class="stack-tag">Node.js</span>
+              <span class="stack-tag">WhatsApp API</span>
+              <span class="stack-tag">ElevenLabs</span>
+              <span class="stack-tag">RabbitMQ</span>
+              <span class="stack-tag">Redis</span>
+            </div>
+          </div>
+        </div>
 
-        function renderEducation() {
-            let educationHtml = '';
-            const startIndex = (currentEducationPage - 1) * ITEMS_PER_PAGE;
-            const pageEducation = educationData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-            pageEducation.forEach(edu => {
-                educationHtml += createEducationHtml(edu);
-            });
-            educationContainer.innerHTML = educationHtml;
-            renderControls(educationControlsEl, currentEducationPage, totalEducationPages, 'edu');
-        }
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-icon teal">⚡</div>
+            <span class="project-badge prod">Produção</span>
+          </div>
+          <div class="project-body">
+            <h3>Migração Monolito → Kubernetes — Edutec</h3>
+            <p>Liderança da migração de servidores monolíticos para arquitetura distribuída em microsserviços na DigitalOcean (Kubernetes), com 35+ containers gerenciados. Processamento assíncrono via RabbitMQ com 10k+ mensagens/hora e alta disponibilidade garantida.</p>
+            <div class="project-stack">
+              <span class="stack-tag">Kubernetes</span>
+              <span class="stack-tag">Docker</span>
+              <span class="stack-tag">GCP</span>
+              <span class="stack-tag">RabbitMQ</span>
+              <span class="stack-tag">PostgreSQL</span>
+              <span class="stack-tag">GitHub Actions</span>
+            </div>
+          </div>
+        </div>
 
-        function renderControls(element, currentPage, totalPages, type) {
-            let controls = [];
-            if (currentPage > 1) {
-                controls.push(`<span class="carousel-control" data-action="prev-${type}">[anterior]</span>`);
-            }
-            if (currentPage < totalPages) {
-                controls.push(`<span class="carousel-control" data-action="next-${type}">[próximo]</span>`);
-            }
-            element.innerHTML = controls.join(' | ');
-        }
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-icon amber">🏥</div>
+            <span class="project-badge arch">Em desenvolvimento</span>
+          </div>
+          <div class="project-body">
+            <h3>Aseno — SaaS de Gestão para Clínicas</h3>
+            <p>Sistema SaaS multi-tenant para clínicas de estética e fisioterapia com agendamento via IA conversacional. Integração WhatsApp (Evolution API) com agente LLM para agendamentos por linguagem natural, sem intervenção humana.</p>
+            <div class="project-stack">
+              <span class="stack-tag">Go</span>
+              <span class="stack-tag">React</span>
+              <span class="stack-tag">PostgreSQL</span>
+              <span class="stack-tag">OpenRouter</span>
+              <span class="stack-tag">WhatsApp</span>
+              <span class="stack-tag">Redis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        const modal = document.getElementById('item-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalJsonContainer = document.getElementById('modal-json');
-        const modalReadmeContainer = document.getElementById('modal-readme');
-        const modalCloseBtn = document.getElementById('modal-close');
+  <!-- STACK -->
+  <section class="stack-section" id="stack">
+    <div class="section-inner">
+      <span class="section-tag">Tecnologias</span>
+      <h2 class="section-title">Stack completo,<br>do banco ao deploy</h2>
+      <p class="section-sub">
+        Proficiência real em produção — não só no GitHub pessoal.
+      </p>
 
-        async function openModal(type, id) {
-            modalReadmeContainer.style.display = 'none'; // Hide by default
-            if (type === 'project') {
-                const project = Object.values(projectsCache).find(p => p.full_name === id);
-                if (!project) return;
-                modalTitle.textContent = project.name;
-                modalJsonContainer.innerHTML = createProjectHtml(project, true);
-                modalReadmeContainer.innerHTML = '<p class="comment">// Carregando README.md...</p>';
-                modalReadmeContainer.style.display = 'block';
-                try {
-                    const readmeUrl = `https://api.github.com/repos/${id}/readme`;
-                    const response = await fetch(readmeUrl, { headers: { 'Accept': 'application/vnd.github.v3.html' } });
-                    if (!response.ok) throw new Error('README não encontrado.');
-                    modalReadmeContainer.innerHTML = await response.text();
-                } catch (error) {
-                    modalReadmeContainer.innerHTML = '<p class="comment">// README.md não pôde ser carregado.</p>';
-                }
-            } else if (type === 'experience') {
-                const exp = experiencesData[id];
-                if (!exp) return;
-                modalTitle.textContent = exp.role;
-                modalJsonContainer.innerHTML = createExperienceHtml(exp, id, true);
-            }
-            modal.classList.remove('hidden');
-        }
-        function closeModal() { modal.classList.add('hidden'); }
+      <div class="stack-grid">
+        <div class="stack-category">
+          <div class="stack-category-title">Backend</div>
+          <div class="stack-items">
+            <span class="stack-item">Go (Gin)</span>
+            <span class="stack-item">Node.js</span>
+            <span class="stack-item">TypeScript</span>
+            <span class="stack-item">PHP</span>
+            <span class="stack-item">REST · WebSockets</span>
+          </div>
+        </div>
+        <div class="stack-category">
+          <div class="stack-category-title">Frontend</div>
+          <div class="stack-items">
+            <span class="stack-item">React (Vite)</span>
+            <span class="stack-item">Next.js</span>
+            <span class="stack-item">Angular</span>
+            <span class="stack-item">TypeScript</span>
+          </div>
+        </div>
+        <div class="stack-category">
+          <div class="stack-category-title">Dados</div>
+          <div class="stack-items">
+            <span class="stack-item">PostgreSQL</span>
+            <span class="stack-item">MySQL</span>
+            <span class="stack-item">Redis</span>
+            <span class="stack-item">RabbitMQ</span>
+            <span class="stack-item">MongoDB</span>
+          </div>
+        </div>
+        <div class="stack-category">
+          <div class="stack-category-title">DevOps</div>
+          <div class="stack-items">
+            <span class="stack-item">Kubernetes (DOKS/GKE)</span>
+            <span class="stack-item">Docker / Swarm</span>
+            <span class="stack-item">Linux</span>
+            <span class="stack-item">GitHub Actions</span>
+            <span class="stack-item">ArgoCD · Jenkins</span>
+          </div>
+        </div>
+        <div class="stack-category">
+          <div class="stack-category-title">Cloud</div>
+          <div class="stack-items">
+            <span class="stack-item">AWS (EC2, S3)</span>
+            <span class="stack-item">GCP</span>
+            <span class="stack-item">DigitalOcean</span>
+            <span class="stack-item">Hetzner</span>
+          </div>
+        </div>
+        <div class="stack-category">
+          <div class="stack-category-title">IA & Integrações</div>
+          <div class="stack-items">
+            <span class="stack-item">WhatsApp Business API</span>
+            <span class="stack-item">ElevenLabs</span>
+            <span class="stack-item">OpenRouter / Gemini</span>
+            <span class="stack-item">Google Calendar API</span>
+            <span class="stack-item">Prompt Engineering</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        document.addEventListener('click', (e) => {
-            const action = e.target.dataset.action;
-            if (action) {
-                const [direction, type] = action.split('-');
-                let newCommand = '';
-                if (type === 'project') {
-                    currentProjectPage += (direction === 'next' ? 1 : -1);
-                    newCommand = `./get_projects.sh --page ${currentProjectPage} | format-json`;
-                    typeWriter(projectCommandEl, newCommand, renderProjects);
-                } else if (type === 'exp') {
-                    currentExperiencePage += (direction === 'next' ? 1 : -1);
-                    newCommand = `./get_experience.sh --page ${currentExperiencePage} | format-json`;
-                    typeWriter(experienceCommandEl, newCommand, renderExperience);
-                } else if (type === 'edu') {
-                    currentEducationPage += (direction === 'next' ? 1 : -1);
-                    newCommand = `./get_education.sh --page ${currentEducationPage} | format-json`;
-                    typeWriter(educationCommandEl, newCommand, renderEducation);
-                }
-            }
-            const maximizeButton = e.target.closest('.maximize-btn');
-            if (maximizeButton) {
-                openModal(maximizeButton.dataset.type, maximizeButton.dataset.id);
-            }
-        });
+  <!-- SOBRE -->
+  <section class="sobre" id="sobre">
+    <div class="section-inner">
+      <div class="sobre-grid">
+        <div class="sobre-text">
+          <div class="sobre-avatar">HJ</div>
+          <h2>Desenvolvedor fullstack com visão de produto</h2>
+          <p>
+            Sou <strong>Hamilton Júnior</strong>, desenvolvedor com quase 3 anos de experiência em sistemas de alta performance para empresas em crescimento. Moro em Alagoinhas, BA, e atendo clientes remotamente em todo o Brasil.
+          </p>
+          <p>
+            Atualmente trabalho na <strong>Edutec Consultoria</strong>, onde liderei a migração de infraestrutura monolítica para Kubernetes e construí sistemas de IA com integração WhatsApp. Também estou desenvolvendo o <strong>Aseno</strong>, um SaaS de gestão para clínicas de estética e fisioterapia.
+          </p>
+          <p>
+            Além do código, tenho visão de produto e negócio — entendo que sistemas existem para resolver problemas, não para impressionar outros devs.
+          </p>
+          <div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap;">
+            <a href="https://linkedin.com/in/jhamiltonjunior" target="_blank" class="btn-secondary" style="font-size:13px; padding:10px 20px;">LinkedIn</a>
+            <a href="https://github.com/jhamiltonjunior" target="_blank" class="btn-secondary" style="font-size:13px; padding:10px 20px;">GitHub</a>
+          </div>
+        </div>
 
-        modalCloseBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        <div class="sobre-highlights">
+          <div class="highlight-card">
+            <div class="hi-icon">🏗️</div>
+            <div class="hi-content">
+              <h4>Liderança técnica</h4>
+              <p>Code reviews, definição de padrões Clean Code/SOLID e condução de cerimônias Scrum. Redução de 35% em bugs de produção.</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="hi-icon">☁️</div>
+            <div class="hi-content">
+              <h4>Infraestrutura real</h4>
+              <p>Gerenciamento de 35+ containers em produção. Migração Docker Swarm → Kubernetes com zero downtime em produção.</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="hi-icon">🤖</div>
+            <div class="hi-content">
+              <h4>IA em produção</h4>
+              <p>Agentes de IA com voz real (ElevenLabs) rodando em produção — não só protótipos. Integração WhatsApp Business oficial com 100% de conformidade Meta.</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="hi-icon">📦</div>
+            <div class="hi-content">
+              <h4>Mentalidade de produto</h4>
+              <p>Fundador do Aseno. Entendo o ciclo completo: discovery, arquitetura, desenvolvimento e entrega para o usuário final.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        window.onload = function() {
-            typeWriter(typewriterElement, "cat Hamilton-Portfolio.txt");
-            typeWriter(projectCommandEl, `./get_projects.sh --page ${currentProjectPage} | format-json`, renderProjects);
-            typeWriter(experienceCommandEl, `./get_experience.sh --page ${currentExperiencePage} | format-json`, renderExperience);
-            typeWriter(educationCommandEl, `./get_education.sh --page ${currentEducationPage} | format-json`, renderEducation);
-        };
-    </script>
+  <!-- CTA FINAL -->
+  <section class="cta-section">
+    <div style="max-width:720px; margin:0 auto;">
+      <h2>Pronto para resolver<br>o próximo problema?</h2>
+      <p>Me conta o desafio técnico que o seu negócio está enfrentando. Respondo em até 24h.</p>
+      <div class="cta-buttons">
+        <a href="mailto:hamiltonjr.dev@gmail.com@gmail.com" class="btn-white">Enviar e-mail →</a>
+        <a href="https://linkedin.com/in/jhamiltonjunior" target="_blank" class="btn-ghost">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <div class="logo-mark">HJ</div>
+        <span>Hamilton Jr.</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="mailto:hamiltonjr.dev@gmail.com@gmail.com">Contato</a></li>
+      </ul>
+      <span class="footer-copy">© 2025 Hamilton Jr. · Alagoinhas, BA</span>
+    </div>
+  </footer>
 
 </body>
 </html>
