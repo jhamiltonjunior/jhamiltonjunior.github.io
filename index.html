@@ -1,1093 +1,900 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hamilton Jr. — Desenvolvimento de Software & Consultoria Técnica</title>
-  <meta name="description" content="Desenvolvimento fullstack com Go, Node.js e React. APIs, integrações, infraestrutura Kubernetes e automações com IA para empresas que precisam de resultado." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hamilton Jr. — Engenheiro de Software</title>
+<meta name="description" content="Engenheiro de software fullstack com Go, Node.js e React. Sistemas distribuídos, APIs, Kubernetes e automações com IA — em produção, não só no README." />
 
-    :root {
-      --blue: #1d72d2;
-      --blue-light: #38b6ff;
-      --blue-bg: #e8f2fd;
-      --blue-bg2: #f0f7ff;
-      --teal: #44af86;
-      --dark: #0b1523;
-      --text: #2c3a4a;
-      --muted: #5a6a7a;
-      --border: #e2e8f0;
-      --white: #ffffff;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 
-    html { scroll-behavior: smooth; }
+<style>
+  :root{
+    --bg: #F2EDE4;
+    --bg-deep: #ECE5D8;
+    --surface: #F8F4EB;
+    --ink: #1A1815;
+    --ink-2: #2C2A26;
+    --muted: #6B6457;
+    --muted-2: #948C7E;
+    --rule: rgba(26,24,21,0.14);
+    --rule-soft: rgba(26,24,21,0.08);
+    --accent: #1D5BC9;
+    --teal: #2D8A66;
+    --container: 1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+  }
 
-    body {
-      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
-      color: var(--text);
-      background: #fff;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    font-feature-settings: 'ss01','ss03','cv11','tnum';
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection{ background: var(--ink); color: var(--bg); }
+  a{ color: inherit; text-decoration: none; }
+  .mono{ font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 
-    a { text-decoration: none; color: inherit; }
+  .container{
+    max-width: var(--container);
+    margin: 0 auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #1d72d2, #38b6ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 800;
-      font-size: 13px;
-      letter-spacing: -0.5px;
-      flex-shrink: 0;
-    }
-    .logo-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--dark);
-      letter-spacing: -0.4px;
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--muted);
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--blue); }
-    .nav-cta {
-      background: var(--blue);
-      color: #fff !important;
-      font-weight: 700 !important;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-size: 13px !important;
-      transition: background 0.2s, transform 0.15s !important;
-    }
-    .nav-cta:hover {
-      background: #1660b8 !important;
-      transform: translateY(-1px);
-    }
+  /* ───────── NAV ───────── */
+  .nav{
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .nav-inner{
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-mark{
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .nav-links{
+    display: flex; gap: 28px; list-style: none; align-items: baseline;
+  }
+  .nav-links a{
+    font-size: 13.5px; color: var(--muted);
+    transition: color .15s;
+  }
+  .nav-links a:hover{ color: var(--ink); }
+  .nav-links a .num{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--muted-2);
+    margin-right: 6px; letter-spacing: 0.05em;
+  }
+  .nav-meta{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.04em;
+  }
+  .nav-meta .dot{
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal); margin-right: 6px; vertical-align: 1px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.45;transform:scale(.8);} }
+  @media (max-width: 760px){ .nav-links{ display: none; } }
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(180deg, #f4f9ff 0%, #fff 70%);
-      padding: 88px 24px 96px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -80px; right: -100px;
-      width: 600px; height: 600px;
-      background: radial-gradient(ellipse at 60% 40%, rgba(56,182,255,0.13) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -60px; left: 5%;
-      width: 400px; height: 400px;
-      background: radial-gradient(ellipse at 50% 50%, rgba(68,175,134,0.07) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .hero-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #fff;
-      border: 1px solid #c8ddf5;
-      border-radius: 100px;
-      padding: 6px 16px;
-      margin-bottom: 32px;
-      box-shadow: 0 2px 8px rgba(29,114,210,0.08);
-    }
-    .pulse-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--teal);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
-    }
-    .hero-badge span {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--blue);
-    }
-    .hero h1 {
-      font-size: clamp(36px, 5vw, 56px);
-      font-weight: 800;
-      color: var(--dark);
-      line-height: 1.08;
-      letter-spacing: -2.5px;
-      max-width: 720px;
-      margin-bottom: 22px;
-    }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--blue);
-    }
-    .hero-sub {
-      font-size: 18px;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 520px;
-      margin-bottom: 40px;
-    }
-    .hero-sub strong { color: var(--dark); font-weight: 600; }
-    .hero-ctas {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 64px;
-    }
-    .btn-primary {
-      background: var(--blue);
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      padding: 14px 30px;
-      border-radius: 10px;
-      letter-spacing: 0.1px;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-primary:hover { background: #1660b8; transform: translateY(-2px); }
-    .btn-secondary {
-      background: #fff;
-      color: var(--blue);
-      border: 1.5px solid #c8ddf5;
-      font-size: 15px;
-      font-weight: 600;
-      padding: 13px 26px;
-      border-radius: 10px;
-      transition: border-color 0.2s, transform 0.15s;
-    }
-    .btn-secondary:hover { border-color: var(--blue); transform: translateY(-2px); }
-    .hero-stats {
-      display: flex;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #fff;
-      max-width: 560px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-    .stat {
-      flex: 1;
-      padding: 20px 24px;
-      border-right: 1px solid var(--border);
-      text-align: center;
-    }
-    .stat:last-child { border-right: none; }
-    .stat-val {
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--dark);
-      letter-spacing: -1.5px;
-      line-height: 1;
-    }
-    .stat-val span { color: var(--blue); }
-    .stat-label {
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 500;
-      margin-top: 5px;
-      line-height: 1.3;
-    }
+  /* ───────── HERO ───────── */
+  .hero{
+    padding-top: clamp(72px, 11vw, 140px);
+    padding-bottom: clamp(60px, 9vw, 120px);
+  }
+  .hero-meta{
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    margin-bottom: clamp(40px, 8vw, 72px);
+  }
+  .hero h1{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 9.5vw, 132px);
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    max-width: 14ch;
+  }
+  .hero h1 .it{ font-style: italic; }
+  .hero-foot{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(24px, 6vw, 80px);
+    align-items: end;
+    margin-top: clamp(40px, 7vw, 80px);
+  }
+  .hero-lead{
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 38ch;
+    font-weight: 400;
+  }
+  .hero-lead b{ font-weight: 500; }
+  .hero-cta{
+    justify-self: end;
+    display: inline-flex; align-items: center; gap: 14px;
+    border: 1px solid var(--ink);
+    padding: 14px 22px 14px 24px;
+    border-radius: 999px;
+    font-size: 14px; font-weight: 500;
+    color: var(--ink); background: transparent;
+    transition: background .2s, color .2s, transform .2s;
+  }
+  .hero-cta:hover{ background: var(--ink); color: var(--bg); transform: translateY(-1px); }
+  .hero-cta .arrow{
+    display: inline-block; width: 16px; height: 1px; background: currentColor; position: relative;
+  }
+  .hero-cta .arrow::after{
+    content: ''; position: absolute; right: 0; top: -3px;
+    width: 7px; height: 7px;
+    border-top: 1px solid currentColor; border-right: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+  .hero-stats{
+    display: flex;
+    gap: clamp(28px, 7vw, 72px);
+    margin-top: clamp(48px, 8vw, 80px);
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+  .hero-stat{ display: flex; flex-direction: column; gap: 6px; }
+  .hs-num{
+    font-family: 'Newsreader', serif;
+    font-size: clamp(22px, 2.8vw, 38px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .hs-num .it{ font-style: italic; color: var(--muted); }
+  .hs-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--muted-2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    max-width: 18ch;
+    line-height: 1.5;
+  }
+  @media (max-width: 760px){
+    .hero-foot{ grid-template-columns: 1fr; align-items: start; }
+    .hero-cta{ justify-self: start; }
+  }
 
-    /* ── LOGOS (clients/tech trust bar) ── */
-    .trust {
-      background: #f8fafc;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 24px 24px;
-    }
-    .trust-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .trust-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #9aabb8;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .trust-techs {
-      display: flex;
-      gap: 28px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .tech-pill {
-      font-size: 13px;
-      font-weight: 700;
-      color: #7a8fa0;
-      letter-spacing: 0.2px;
-    }
+  /* ───────── SECTION BASE ───────── */
+  section{ padding: clamp(72px, 10vw, 140px) 0; position: relative; }
+  .sec-eyebrow{
+    display: flex; align-items: baseline; gap: 14px;
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    margin-bottom: clamp(40px, 6vw, 72px);
+  }
+  .sec-eyebrow .num{ font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+  .sec-eyebrow .label{ font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; }
 
-    /* ── SECTION BASE ── */
-    section { padding: 88px 24px; }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
-    .section-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--blue);
-      background: var(--blue-bg);
-      padding: 5px 12px;
-      border-radius: 6px;
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-size: clamp(28px, 3.5vw, 40px);
-      font-weight: 800;
-      color: var(--dark);
-      letter-spacing: -1.5px;
-      line-height: 1.15;
-      margin-bottom: 12px;
-    }
-    .section-sub {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 540px;
-      line-height: 1.65;
-      margin-bottom: 56px;
-    }
+  /* ───────── ABOUT ───────── */
+  .about{ background: var(--bg); }
+  .about-body{ max-width: 720px; }
+  .about-body p{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 38px);
+    line-height: 1.32;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    margin-bottom: 1em;
+  }
+  .about-body p .quiet{ color: var(--muted); }
+  .about-tail{
+    margin-top: clamp(36px, 5vw, 56px);
+    max-width: 56ch;
+    display: grid; grid-template-columns: auto 1fr; gap: 14px 22px;
+    align-items: baseline;
+  }
+  .about-tail dt{ font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted-2); letter-spacing: 0.1em; text-transform: uppercase; }
+  .about-tail dd{ color: var(--ink-2); font-size: 15.5px; }
+  .about-tail dd a{ border-bottom: 1px solid var(--rule); transition: border-color .15s, color .15s; }
+  .about-tail dd a:hover{ color: var(--accent); border-color: var(--accent); }
 
-    /* ── SERVIÇOS ── */
-    .servicos { background: #fff; }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-    }
-    .service-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    }
-    .service-card:hover {
-      border-color: #b0cff4;
-      box-shadow: 0 8px 32px rgba(29,114,210,0.09);
-      transform: translateY(-3px);
-    }
-    .service-icon {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      background: var(--blue-bg);
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px;
-      font-size: 22px;
-    }
-    .service-card h3 {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 10px;
-      letter-spacing: -0.4px;
-    }
-    .service-card p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 20px;
-    }
-    .service-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .tag {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--blue);
-      background: var(--blue-bg);
-      padding: 4px 10px;
-      border-radius: 5px;
-      letter-spacing: 0.1px;
-    }
+  /* ───────── PRACTICE ───────── */
+  .practice{ background: var(--bg-deep); }
+  .practice-list{ display: flex; flex-direction: column; }
+  .practice-item{
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr;
+    gap: clamp(20px, 4vw, 64px);
+    padding: clamp(28px, 4vw, 44px) 0;
+    border-top: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .practice-item:last-child{ border-bottom: 1px solid var(--rule); }
+  .practice-item .pnum{
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: clamp(40px, 4.5vw, 64px);
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .practice-item h3{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .practice-item p{
+    font-size: 15.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 48ch;
+  }
+  .practice-item:hover .pnum{ color: var(--accent); transition: color .2s; }
+  @media (max-width: 880px){
+    .practice-item{ grid-template-columns: 60px 1fr; }
+    .practice-item p{ grid-column: 1 / -1; padding-left: 60px; }
+  }
+  @media (max-width: 520px){
+    .practice-item p{ padding-left: 0; }
+  }
 
-    /* ── RESULTADOS ── */
-    .resultados { background: var(--blue); padding: 72px 24px; }
-    .resultados .section-title { color: #fff; }
-    .resultados .section-sub { color: rgba(255,255,255,0.7); }
-    .resultados .section-tag { background: rgba(255,255,255,0.15); color: #fff; }
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-    .result-card {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 14px;
-      padding: 28px 28px;
-      backdrop-filter: blur(4px);
-    }
-    .result-num {
-      font-size: 42px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -2px;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .result-num span { color: rgba(255,255,255,0.6); font-size: 24px; }
-    .result-desc {
-      font-size: 14px;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.5;
-    }
+  /* ───────── WORK ───────── */
+  .work{ background: var(--bg); }
 
-    /* ── PROJETOS ── */
-    .projetos { background: #f8fafc; }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-    }
-    .project-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .project-card:hover {
-      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-      transform: translateY(-4px);
-    }
-    .project-header {
-      padding: 28px 28px 0;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .project-icon {
-      width: 46px; height: 46px;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-    .project-icon.blue { background: var(--blue-bg); }
-    .project-icon.teal { background: #e0f5ed; }
-    .project-icon.amber { background: #fff4e0; }
-    .project-badge {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 5px;
-    }
-    .project-badge.prod { background: #e0f5ed; color: #0d7a52; }
-    .project-badge.arch { background: var(--blue-bg); color: var(--blue); }
-    .project-body { padding: 20px 28px 28px; }
-    .project-body h3 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 8px;
-      letter-spacing: -0.3px;
-    }
-    .project-body p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 20px;
-    }
-    .project-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .stack-tag {
-      font-size: 11px;
-      font-weight: 600;
-      color: #6a7b8a;
-      background: #f0f4f8;
-      padding: 4px 10px;
-      border-radius: 5px;
-    }
+  .work-1{
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: clamp(24px, 5vw, 80px);
+    padding-bottom: clamp(60px, 8vw, 100px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .w1-iframe-wrap{
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    background: var(--bg-deep);
+  }
+  .w1-iframe-wrap iframe{
+    width: 200%;
+    height: 200%;
+    border: none;
+    transform: scale(0.5);
+    transform-origin: top left;
+    pointer-events: none;
+  }
+  .w1-iframe-link{
+    position: absolute;
+    bottom: 14px; left: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    padding: 4px 10px;
+    border-radius: 3px;
+    transition: color .15s, border-color .15s;
+  }
+  .w1-iframe-link:hover{ color: var(--accent); border-color: var(--accent); }
+  .work-1 .meta{
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 20px;
+    border-top: 1px solid var(--rule); padding-top: 14px;
+  }
+  .work-1 h3{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+    color: var(--ink);
+  }
+  .work-1 h3 .it{ font-style: italic; }
+  .work-1 p{ font-size: 16.5px; color: var(--ink-2); line-height: 1.65; max-width: 44ch; margin-bottom: 14px; }
+  .work-1 p.dim{ color: var(--muted); font-size: 15px; }
 
-    /* ── STACK ── */
-    .stack-section { background: #fff; }
-    .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
-    .stack-category {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 22px;
-    }
-    .stack-category-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--blue);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .stack-items {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .stack-item {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .stack-item::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--blue-light);
-      flex-shrink: 0;
-    }
+  .work-2{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(24px, 5vw, 80px);
+    align-items: center;
+    padding: clamp(60px, 8vw, 100px) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .work-2 .meta{
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 20px;
+    border-top: 1px solid var(--rule); padding-top: 14px;
+  }
+  .work-2 h3{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(30px, 3.6vw, 48px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+  }
+  .work-2 p{ font-size: 16.5px; color: var(--ink-2); line-height: 1.7; max-width: 52ch; }
+  .work-2 .numeral{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(120px, 18vw, 240px);
+    line-height: 0.85;
+    color: var(--ink);
+    letter-spacing: -0.06em;
+    text-align: right;
+  }
+  .work-2 .numeral sup{
+    font-size: 0.34em; vertical-align: top;
+    font-style: italic; color: var(--muted);
+  }
+  .work-2 .numeral .cap{
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 16px; text-align: right; line-height: 1.5;
+  }
 
-    /* ── SOBRE ── */
-    .sobre { background: #f8fafc; }
-    .sobre-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-    .sobre-avatar {
-      width: 72px; height: 72px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #1d72d2, #38b6ff);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff;
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 24px;
-      letter-spacing: -1px;
-    }
-    .sobre-text h2 {
-      font-size: clamp(26px, 3vw, 36px);
-      font-weight: 800;
-      color: var(--dark);
-      letter-spacing: -1.5px;
-      margin-bottom: 16px;
-      line-height: 1.15;
-    }
-    .sobre-text p {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 14px;
-    }
-    .sobre-text p strong { color: var(--text); font-weight: 600; }
-    .sobre-highlights {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .highlight-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      transition: border-color 0.2s;
-    }
-    .highlight-card:hover { border-color: #b0cff4; }
-    .hi-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: var(--blue-bg);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .hi-content h4 {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 3px;
-    }
-    .hi-content p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.55;
-      margin: 0;
-    }
+  .work-3{ padding-top: clamp(60px, 8vw, 100px); }
+  .work-3 .meta{
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 28px;
+    border-top: 1px solid var(--rule); padding-top: 14px;
+  }
+  .work-3 h3{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(30px, 3.6vw, 48px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin-bottom: 12px; max-width: 22ch;
+  }
+  .work-3 .blurb{ font-size: 16.5px; color: var(--ink-2); line-height: 1.65; max-width: 60ch; margin-bottom: 40px; }
 
-    /* ── CTA FINAL ── */
-    .cta-section {
-      background: linear-gradient(135deg, #1d72d2 0%, #1560be 100%);
-      padding: 80px 24px;
-      text-align: center;
-    }
-    .cta-section h2 {
-      font-size: clamp(28px, 4vw, 44px);
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -2px;
-      margin-bottom: 14px;
-      line-height: 1.1;
-    }
-    .cta-section p {
-      font-size: 17px;
-      color: rgba(255,255,255,0.75);
-      margin-bottom: 36px;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-    .cta-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-white {
-      background: #fff;
-      color: var(--blue);
-      font-size: 15px;
-      font-weight: 700;
-      padding: 14px 30px;
-      border-radius: 10px;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
-    .btn-ghost {
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      font-size: 15px;
-      font-weight: 600;
-      padding: 13px 26px;
-      border-radius: 10px;
-      transition: background 0.2s;
-    }
-    .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+  table.facts{ width: 100%; border-collapse: collapse; margin-top: 12px; }
+  table.facts caption{
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted-2);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding-bottom: 10px; border-bottom: 1px solid var(--ink);
+  }
+  table.facts tr{ border-bottom: 1px solid var(--rule); }
+  table.facts th, table.facts td{
+    text-align: left; padding: 18px 16px 18px 0;
+    vertical-align: top; font-size: 15.5px; line-height: 1.55;
+  }
+  table.facts th{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+    width: 22%; white-space: nowrap;
+  }
+  table.facts td{ color: var(--ink-2); }
+  table.facts td .num{
+    font-family: 'Newsreader', serif;
+    font-style: italic; color: var(--accent); font-size: 18px;
+  }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--dark);
-      padding: 40px 24px;
-    }
-    .footer-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .footer-logo .logo-mark {
-      width: 32px; height: 32px;
-      font-size: 11px;
-    }
-    .footer-logo span {
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-    }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-    .footer-links a {
-      font-size: 13px;
-      color: rgba(255,255,255,0.5);
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: rgba(255,255,255,0.9); }
-    .footer-copy {
-      font-size: 12px;
-      color: rgba(255,255,255,0.35);
-    }
+  @media (max-width: 760px){
+    .work-1, .work-2{ grid-template-columns: 1fr; }
+    .work-2 .numeral{ text-align: left; }
+    .work-2 .numeral .cap{ text-align: left; }
+  }
+  @media (max-width: 600px){
+    table.facts th{ width: 35%; white-space: normal; font-size: 10.5px; }
+    table.facts th, table.facts td{ padding: 14px 10px 14px 0; font-size: 14.5px; }
+  }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hero { padding: 56px 20px 64px; }
-      .hero-stats { flex-direction: column; max-width: 100%; }
-      .stat { border-right: none; border-bottom: 1px solid var(--border); }
-      .stat:last-child { border-bottom: none; }
-      .sobre-grid { grid-template-columns: 1fr; gap: 40px; }
-      .results-grid { grid-template-columns: 1fr 1fr; }
-      section { padding: 64px 20px; }
-    }
-  </style>
+  /* ───────── STACK ───────── */
+  .stack{ background: var(--bg-deep); }
+  .stack-intro{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.45;
+    color: var(--ink);
+    letter-spacing: -0.012em;
+    max-width: 60ch;
+    margin-bottom: 48px;
+  }
+  .stack-intro .accent-ink{ color: var(--accent); font-style: italic; }
+  .stack-cats{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 32px 40px;
+    padding-top: 36px;
+    border-top: 1px solid var(--rule);
+  }
+  .stack-cat dl{ display: flex; flex-direction: column; }
+  .stack-cat dt{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted-2); margin-bottom: 12px;
+  }
+  .stack-cat dd{ font-size: 15px; color: var(--ink-2); line-height: 1.9; }
+
+  /* ───────── CONTACT ───────── */
+  .contact{
+    background: var(--ink); color: var(--bg);
+    padding: clamp(80px, 11vw, 160px) 0 clamp(64px, 9vw, 100px);
+  }
+  .contact .sec-eyebrow{ border-top-color: rgba(242,237,228,0.18); }
+  .contact .sec-eyebrow .num,
+  .contact .sec-eyebrow .label{ color: rgba(242,237,228,0.55); }
+  .contact-grid{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: end;
+  }
+  .contact h2{
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 1; letter-spacing: -0.03em; color: var(--bg);
+  }
+  .contact h2 .it{ font-style: italic; }
+  .contact .lead{
+    font-size: 17px; line-height: 1.65;
+    color: rgba(242,237,228,0.7); max-width: 44ch; margin-top: 24px;
+  }
+  .contact .email-link{
+    display: inline-block; margin-top: 28px;
+    font-family: 'Newsreader', serif; font-style: italic;
+    font-size: clamp(22px, 2.8vw, 32px);
+    color: var(--bg);
+    border-bottom: 1px solid rgba(242,237,228,0.35);
+    padding-bottom: 4px;
+    transition: border-color .2s;
+    position: relative;
+  }
+  .contact .email-link:hover{ border-color: var(--bg); }
+  .copied-flag{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--teal); margin-left: 12px;
+    opacity: 0; transition: opacity .2s; font-style: normal;
+  }
+  .copied-flag.show{ opacity: 1; }
+  .contact-channels{
+    display: flex; flex-direction: column; gap: 0;
+    border-top: 1px solid rgba(242,237,228,0.18);
+  }
+  .contact-channel{
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 16px; align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(242,237,228,0.18);
+    color: rgba(242,237,228,0.85);
+    transition: color .2s;
+  }
+  .contact-channel:hover{ color: var(--bg); }
+  .contact-channel .ch-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(242,237,228,0.5);
+  }
+  .contact-channel .ch-handle{ font-size: 16px; }
+  .contact-channel .ch-arrow{
+    font-family: 'Newsreader', serif; font-style: italic; font-size: 15px;
+    color: rgba(242,237,228,0.5); transition: transform .2s, color .2s;
+  }
+  .contact-channel:hover .ch-arrow{ transform: translateX(4px); color: var(--bg); }
+  @media (max-width: 760px){
+    .contact-grid{ grid-template-columns: 1fr; }
+    .contact-channel{ grid-template-columns: 90px 1fr auto; gap: 12px; }
+  }
+
+  /* ───────── FOOTER ───────── */
+  footer{
+    background: var(--ink); color: rgba(242,237,228,0.45);
+    padding: 24px 0 36px;
+    border-top: 1px solid rgba(242,237,228,0.1);
+  }
+  .foot-inner{
+    display: flex; justify-content: space-between; align-items: baseline;
+    flex-wrap: wrap; gap: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  /* ───────── ENTRANCE ───────── */
+  @keyframes rise{ from{ opacity:0; transform: translateY(14px);} to{opacity:1; transform: none;} }
+  .rise{ animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+  .rise-d1{ animation-delay: .12s; }
+  .rise-d2{ animation-delay: .24s; }
+  .rise-d3{ animation-delay: .36s; }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-inner">
-      <a href="#" class="nav-logo">
-        <div class="logo-mark">HJ</div>
-        <span class="logo-name">Hamilton Jr.</span>
-      </a>
+<!-- ─────────────────────── NAV ─────────────────────── -->
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-mark">Hamilton Jr.</a>
+    <nav>
       <ul class="nav-links">
-        <li><a href="#servicos">Serviços</a></li>
-        <li><a href="#projetos">Projetos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="mailto:hamiltonjr.dev@gmail.com@gmail.com" class="nav-cta">Falar com Hamilton</a></li>
+        <li><a href="#sobre"><span class="num">01</span>Sobre</a></li>
+        <li><a href="#pratica"><span class="num">02</span>Prática</a></li>
+        <li><a href="#trabalhos"><span class="num">03</span>Trabalhos</a></li>
+        <li><a href="#contato"><span class="num">04</span>Contato</a></li>
       </ul>
+    </nav>
+    <div class="nav-meta"><span class="dot"></span>Disponível para projetos</div>
+  </div>
+</header>
+
+<!-- ─────────────────────── HERO ─────────────────────── -->
+<section id="top" class="hero">
+  <div class="container">
+    <div class="hero-meta mono rise">
+      <span>Portfólio · Hamilton Júnior</span>
+      <span>Alagoinhas / Bahia</span>
     </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-badge">
-        <span class="pulse-dot"></span>
-        <span>Disponível para novos projetos</span>
-      </div>
-
-      <h1>
-        Sistemas que funcionam<br>
-        quando seu negócio <em>precisa crescer.</em>
-      </h1>
-
-      <p class="hero-sub">
-        Desenvolvimento fullstack com <strong>Go, Node.js e React</strong> — APIs robustas, automações com IA e infraestrutura Kubernetes para empresas que precisam de um parceiro técnico, não só de um desenvolvedor.
+    <h1 class="rise rise-d1">
+      Engenharia de<br/>
+      software, sem<br/>
+      <span class="it">teatro.</span>
+    </h1>
+    <div class="hero-foot rise rise-d2">
+      <p class="hero-lead">
+        Construo backends, APIs e infraestrutura com <b>Go, Node.js e React</b> — sistemas distribuídos e automações com IA que funcionam em produção, não só em demo.
       </p>
-
-      <div class="hero-ctas">
-        <a href="#projetos" class="btn-primary">Ver projetos →</a>
-        <a href="mailto:hamiltonjr.dev@gmail.com@gmail.com" class="btn-secondary">Agendar conversa</a>
-      </div>
-
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-val">8s→<span>300ms</span></div>
-          <div class="stat-label">latência de APIs críticas</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val">35<span>+</span></div>
-          <div class="stat-label">containers em produção</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val">10k<span>+</span></div>
-          <div class="stat-label">mensagens/hora com RabbitMQ</div>
-        </div>
-      </div>
+      <a href="#contato" class="hero-cta">
+        Falar sobre o projeto
+        <span class="arrow"></span>
+      </a>
     </div>
-  </section>
 
-  <!-- TRUST BAR -->
-  <div class="trust">
-    <div class="trust-inner">
-      <span class="trust-label">Stack principal</span>
-      <div class="trust-techs">
-        <span class="tech-pill">Go (Gin)</span>
-        <span class="tech-pill">·</span>
-        <span class="tech-pill">Node.js</span>
-        <span class="tech-pill">·</span>
-        <span class="tech-pill">React / Next.js</span>
-        <span class="tech-pill">·</span>
-        <span class="tech-pill">Kubernetes</span>
-        <span class="tech-pill">·</span>
-        <span class="tech-pill">Docker</span>
-        <span class="tech-pill">·</span>
-        <span class="tech-pill">PostgreSQL</span>
-        <span class="tech-pill">·</span>
-        <span class="tech-pill">RabbitMQ</span>
-        <span class="tech-pill">·</span>
-        <span class="tech-pill">Redis</span>
+    <div class="hero-stats rise rise-d3">
+      <div class="hero-stat">
+        <span class="hs-num">8s <span class="it">→</span> 300ms</span>
+        <span class="hs-label">Latência de APIs críticas</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hs-num">35+</span>
+        <span class="hs-label">Containers em produção</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hs-num">10k+</span>
+        <span class="hs-label">Mensagens/hora via RabbitMQ</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hs-num">100%</span>
+        <span class="hs-label">Conformidade Meta — WhatsApp Business</span>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- SERVIÇOS -->
-  <section class="servicos" id="servicos">
-    <div class="section-inner">
-      <span class="section-tag">O que eu entrego</span>
-      <h2 class="section-title">Soluções que resolvem<br>problemas reais de negócio</h2>
-      <p class="section-sub">
-        Cada projeto começa pelo problema do seu negócio, não pela tecnologia. A stack vem depois.
+<!-- ─────────────────────── ABOUT ─────────────────────── -->
+<section id="sobre" class="about">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span class="num">01 / 04</span>
+      <span class="label">Sobre</span>
+    </div>
+
+    <div class="about-body">
+      <p>
+        Sou engenheiro de software fullstack com foco em backend, sistemas distribuídos e automação com IA.
       </p>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">🔗</div>
-          <h3>APIs e Integrações</h3>
-          <p>WhatsApp Business, CRMs, ERPs, Mercado Livre, calendários e qualquer API que o seu sistema ainda não fala. Automações que eliminam trabalho manual e aumentam a velocidade do seu time.</p>
-          <div class="service-tags">
-            <span class="tag">WhatsApp API</span>
-            <span class="tag">Webhooks</span>
-            <span class="tag">REST/GraphQL</span>
-            <span class="tag">Go · Node.js</span>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">⚙️</div>
-          <h3>Sistemas e Plataformas</h3>
-          <p>Backends escaláveis, dashboards, SaaS multi-tenant e sistemas de gestão. Do banco de dados ao frontend React — entregue com documentação, testes e CI/CD configurado.</p>
-          <div class="service-tags">
-            <span class="tag">SaaS</span>
-            <span class="tag">React / Next.js</span>
-            <span class="tag">PostgreSQL</span>
-            <span class="tag">Microsserviços</span>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">☁️</div>
-          <h3>DevOps e Infraestrutura</h3>
-          <p>Containerização, orquestração Kubernetes, pipelines CI/CD e monitoramento. Migração de ambientes legados para cloud sem downtime e com custo sob controle.</p>
-          <div class="service-tags">
-            <span class="tag">Kubernetes</span>
-            <span class="tag">Docker</span>
-            <span class="tag">GitHub Actions</span>
-            <span class="tag">AWS · GCP · DO</span>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon">🤖</div>
-          <h3>Automação com IA</h3>
-          <p>Agentes conversacionais para WhatsApp, agendamentos automáticos com voz humana e fluxos de atendimento inteligentes. IA que funciona em produção, não só em demo.</p>
-          <div class="service-tags">
-            <span class="tag">LLM / Agentes</span>
-            <span class="tag">ElevenLabs</span>
-            <span class="tag">OpenRouter</span>
-            <span class="tag">Prompt Eng.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESULTADOS -->
-  <section class="resultados">
-    <div class="section-inner">
-      <span class="section-tag">Números reais</span>
-      <h2 class="section-title">Resultado que aparece<br>nos dashboards do cliente</h2>
-      <p class="section-sub">
-        Não só código que funciona — código que move métricas de negócio.
+      <p>
+        Trabalho na <strong>Edutec Consultoria</strong>, onde liderei a migração de infraestrutura monolítica para Kubernetes e desenvolvi sistemas de IA integrados ao WhatsApp Business. <span class="quiet">Também sou o criador do Aseno — SaaS de gestão para clínicas — da arquitetura ao deploy.</span>
       </p>
-      <div class="results-grid">
-        <div class="result-card">
-          <div class="result-num">96<span>%</span></div>
-          <div class="result-desc">Redução na latência de APIs críticas (de 8s para 300ms)</div>
+    </div>
+
+    <dl class="about-tail">
+      <dt>Base</dt>
+      <dd>Alagoinhas, Bahia — atendo remoto em todo o Brasil.</dd>
+      <dt>Stack principal</dt>
+      <dd>Go, Node.js, TypeScript, React, Kubernetes, PostgreSQL.</dd>
+      <dt>Perfil</dt>
+      <dd>Quase 3 anos construindo sistemas que vão pra produção e aguentam o tranco.</dd>
+      <dt>Fluxo de trabalho</dt>
+      <dd>Uso Claude Code e ChatGPT como copilotos no desenvolvimento — para revisão de arquitetura, geração de boilerplate e debugging acelerado. IA como ferramenta de engenheiro, não substituto.</dd>
+      <dt>Links</dt>
+      <dd>
+        <a href="https://linkedin.com/in/jhamiltonjunior" target="_blank" rel="noopener">LinkedIn</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/jhamiltonjunior" target="_blank" rel="noopener">GitHub</a>
+      </dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ─────────────────────── PRACTICE ─────────────────────── -->
+<section id="pratica" class="practice">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span class="num">02 / 04</span>
+      <span class="label">Áreas de prática</span>
+    </div>
+
+    <div class="practice-list">
+
+      <article class="practice-item">
+        <div class="pnum">01</div>
+        <h3>APIs &amp; backends de produto</h3>
+        <p>Projeto e implemento serviços HTTP e WebSocket em Go e Node.js, com observabilidade desde o primeiro deploy. Antes de qualquer linha de código: o que vai falhar primeiro, e como o time vai descobrir.</p>
+      </article>
+
+      <article class="practice-item">
+        <div class="pnum">02</div>
+        <h3>Infraestrutura &amp; migrações</h3>
+        <p>Kubernetes, GitOps, CI/CD com GitHub Actions e ArgoCD. Já conduzi migração de VM única para cluster com 35+ containers, substituindo intervenções manuais por pipelines automatizados — sem downtime em produção.</p>
+      </article>
+
+      <article class="practice-item">
+        <div class="pnum">03</div>
+        <h3>Automação com IA</h3>
+        <p>Agentes e fluxos que combinam LLMs com APIs de produto. Síntese de voz via ElevenLabs, canal WhatsApp Business, orquestração de modelos via OpenRouter e Gemini. Atendimento real e operação interna — não chatbot de marketing.</p>
+      </article>
+
+      <article class="practice-item">
+        <div class="pnum">04</div>
+        <h3>Front-end &amp; produto</h3>
+        <p>Interfaces em React e Next.js quando o projeto exige uma camada de produto completa. Do banco de dados ao componente — entrego a stack inteira quando necessário, sem depender de outro desenvolvedor para fechar o ciclo.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── WORK ─────────────────────── -->
+<section id="trabalhos" class="work">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span class="num">03 / 04</span>
+      <span class="label">Trabalhos selecionados</span>
+    </div>
+
+    <!-- P-01: Aseno -->
+    <article class="work-1">
+      <div class="w1-iframe-wrap">
+        <iframe
+          src="https://aseno.com.br/autonomos"
+          title="Aseno — landing page"
+          loading="lazy"
+          scrolling="no"
+        ></iframe>
+        <a href="https://aseno.com.br/autonomos" target="_blank" rel="noopener" class="w1-iframe-link">aseno.com.br ↗</a>
+      </div>
+      <div class="work-1-content">
+        <div class="meta mono">
+          <span>P-01 · Produto autoral</span>
+          <span>Em produção</span>
         </div>
-        <div class="result-card">
-          <div class="result-num">70<span>%</span></div>
-          <div class="result-desc">Menos trabalho manual no suporte — 10h/semana liberadas para atividades estratégicas</div>
+        <h3>Aseno<span class="it">.</span></h3>
+        <p>SaaS de gestão para clínicas de estética e fisioterapia com agendamento via IA conversacional. Integração WhatsApp (Evolution API e Gupshup) com agente LLM que agenda consultas por linguagem natural, sem intervenção humana.</p>
+        <p class="dim">Sistema multi-tenant com backend em Go, frontend React e orquestração de modelos via OpenRouter. Laboratório onde experimento padrões de arquitetura que depois chegam a outros projetos.</p>
+      </div>
+    </article>
+
+    <!-- P-02: Edutec -->
+    <article class="work-2">
+      <div>
+        <div class="meta mono">
+          <span>P-02 · Edutec · Em produção</span>
+          <span>Go · Gin · ElevenLabs · WhatsApp API · RabbitMQ</span>
         </div>
-        <div class="result-card">
-          <div class="result-num">35<span>%</span></div>
-          <div class="result-desc">Queda em bugs de produção após implementação de padrões Clean Code e code review</div>
-        </div>
-        <div class="result-card">
-          <div class="result-num">100<span>%</span></div>
-          <div class="result-desc">Conformidade Meta na implementação da API oficial do WhatsApp — zero banimentos</div>
+        <h3>Plataforma de agentes de IA com voz para atendimento automatizado.</h3>
+        <p>Orquestração de agentes integrados ao Google Calendar e ElevenLabs — agendamentos automáticos e follow-ups com voz humana em tempo real. WhatsApp Business API com 100% de conformidade Meta, eliminando risco de banimento de números. Os agentes processam mais de 10 mil mensagens por hora em horário comercial.</p>
+      </div>
+      <div>
+        <div class="numeral">96<sup>%</sup>
+          <span class="cap">Redução de latência<br/>após reescrita do orquestrador</span>
         </div>
       </div>
+    </article>
+
+    <!-- P-03: Kubernetes migration -->
+    <article class="work-3">
+      <div class="meta mono">
+        <span>P-03 · Edutec · Contrato em andamento</span>
+        <span>Kubernetes · Docker · GCP · GitHub Actions · ArgoCD</span>
+      </div>
+      <h3>Migração de monolito para arquitetura distribuída em Kubernetes.</h3>
+      <p class="blurb">Liderança da migração de servidores monolíticos para microsserviços na DigitalOcean (Kubernetes). Pipeline de CI/CD automatizado, observabilidade ponta a ponta e processamento assíncrono via RabbitMQ. Várias releases incrementais — sem janela de manutenção prolongada.</p>
+
+      <table class="facts">
+        <caption>Resumo do projeto</caption>
+        <tbody>
+          <tr>
+            <th scope="row">Escopo</th>
+            <td>Decomposição em serviços, observabilidade unificada, pipeline de entrega contínua e code review sistemático.</td>
+          </tr>
+          <tr>
+            <th scope="row">Containers</th>
+            <td><span class="num">35+</span> serviços em produção, distribuídos em namespaces por domínio.</td>
+          </tr>
+          <tr>
+            <th scope="row">Operação manual</th>
+            <td>Redução de <span class="num">70%</span> em intervenções recorrentes — 10h/semana liberadas.</td>
+          </tr>
+          <tr>
+            <th scope="row">Bugs em produção</th>
+            <td>Queda de <span class="num">35%</span> em incidentes após padrões Clean Code e code review sistemático.</td>
+          </tr>
+          <tr>
+            <th scope="row">Papel</th>
+            <td>Liderança técnica, arquitetura e implementação. Cerimônias Scrum e definição de padrões de equipe.</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </div>
+</section>
+
+<!-- ─────────────────────── STACK ─────────────────────── -->
+<section class="stack">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span class="num">·</span>
+      <span class="label">Stack</span>
     </div>
-  </section>
+    <p class="stack-intro">
+      Trabalho com <span class="accent-ink">Go, Node.js, TypeScript e PostgreSQL</span> no backend, React e Next.js quando o projeto exige produto completo, e Kubernetes sobre GCP, AWS ou DigitalOcean na infra.
+    </p>
 
-  <!-- PROJETOS -->
-  <section class="projetos" id="projetos">
-    <div class="section-inner">
-      <span class="section-tag">Projetos</span>
-      <h2 class="section-title">Sistemas que já estão<br>rodando em produção</h2>
-      <p class="section-sub">
-        Projetos reais, com desafios reais e resultados mensuráveis.
-      </p>
-
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="project-header">
-            <div class="project-icon blue">🤖</div>
-            <span class="project-badge prod">Produção</span>
-          </div>
-          <div class="project-body">
-            <h3>Plataforma de IA com Voz — Edutec / Leavo AI</h3>
-            <p>Orquestração de agentes de IA integrados ao Google Calendar e ElevenLabs, permitindo agendamentos automáticos e follow-ups com voz humana em tempo real. Automação do WhatsApp Business com 100% de conformidade Meta, eliminando banimento de números.</p>
-            <div class="project-stack">
-              <span class="stack-tag">Go · Gin</span>
-              <span class="stack-tag">Node.js</span>
-              <span class="stack-tag">WhatsApp API</span>
-              <span class="stack-tag">ElevenLabs</span>
-              <span class="stack-tag">RabbitMQ</span>
-              <span class="stack-tag">Redis</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-header">
-            <div class="project-icon teal">⚡</div>
-            <span class="project-badge prod">Produção</span>
-          </div>
-          <div class="project-body">
-            <h3>Migração Monolito → Kubernetes — Edutec</h3>
-            <p>Liderança da migração de servidores monolíticos para arquitetura distribuída em microsserviços na DigitalOcean (Kubernetes), com 35+ containers gerenciados. Processamento assíncrono via RabbitMQ com 10k+ mensagens/hora e alta disponibilidade garantida.</p>
-            <div class="project-stack">
-              <span class="stack-tag">Kubernetes</span>
-              <span class="stack-tag">Docker</span>
-              <span class="stack-tag">GCP</span>
-              <span class="stack-tag">RabbitMQ</span>
-              <span class="stack-tag">PostgreSQL</span>
-              <span class="stack-tag">GitHub Actions</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-header">
-            <div class="project-icon amber">🏥</div>
-            <span class="project-badge arch">Em desenvolvimento</span>
-          </div>
-          <div class="project-body">
-            <h3>Aseno — SaaS de Gestão para Clínicas</h3>
-            <p>Sistema SaaS multi-tenant para clínicas de estética e fisioterapia com agendamento via IA conversacional. Integração WhatsApp (Evolution API) com agente LLM para agendamentos por linguagem natural, sem intervenção humana.</p>
-            <div class="project-stack">
-              <span class="stack-tag">Go</span>
-              <span class="stack-tag">React</span>
-              <span class="stack-tag">PostgreSQL</span>
-              <span class="stack-tag">OpenRouter</span>
-              <span class="stack-tag">WhatsApp</span>
-              <span class="stack-tag">Redis</span>
-            </div>
-          </div>
-        </div>
+    <div class="stack-cats">
+      <div class="stack-cat">
+        <dl>
+          <dt>Backend</dt>
+          <dd>Go (Gin)</dd>
+          <dd>Node.js</dd>
+          <dd>TypeScript</dd>
+          <dd>Python</dd>
+          <dd>REST · WebSockets · gRPC</dd>
+        </dl>
+      </div>
+      <div class="stack-cat">
+        <dl>
+          <dt>Frontend</dt>
+          <dd>React (Vite)</dd>
+          <dd>Next.js</dd>
+          <dd>Angular</dd>
+          <dd>TypeScript</dd>
+        </dl>
+      </div>
+      <div class="stack-cat">
+        <dl>
+          <dt>Dados</dt>
+          <dd>PostgreSQL</dd>
+          <dd>MySQL</dd>
+          <dd>Redis</dd>
+          <dd>RabbitMQ</dd>
+          <dd>MongoDB</dd>
+        </dl>
+      </div>
+      <div class="stack-cat">
+        <dl>
+          <dt>DevOps</dt>
+          <dd>Kubernetes (DOKS/GKE)</dd>
+          <dd>Docker / Swarm</dd>
+          <dd>GitHub Actions</dd>
+          <dd>ArgoCD · Jenkins</dd>
+          <dd>Linux</dd>
+        </dl>
+      </div>
+      <div class="stack-cat">
+        <dl>
+          <dt>Cloud</dt>
+          <dd>AWS (EC2, S3)</dd>
+          <dd>GCP</dd>
+          <dd>DigitalOcean</dd>
+          <dd>Hetzner</dd>
+        </dl>
+      </div>
+      <div class="stack-cat">
+        <dl>
+          <dt>IA &amp; Integrações</dt>
+          <dd>WhatsApp Business API</dd>
+          <dd>ElevenLabs</dd>
+          <dd>OpenRouter / Gemini</dd>
+          <dd>Google Calendar API</dd>
+          <dd>Evolution API</dd>
+          <dd>Claude Code · ChatGPT</dd>
+        </dl>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- STACK -->
-  <section class="stack-section" id="stack">
-    <div class="section-inner">
-      <span class="section-tag">Tecnologias</span>
-      <h2 class="section-title">Stack completo,<br>do banco ao deploy</h2>
-      <p class="section-sub">
-        Proficiência real em produção — não só no GitHub pessoal.
-      </p>
+<!-- ─────────────────────── CONTACT ─────────────────────── -->
+<section id="contato" class="contact">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span class="num">04 / 04</span>
+      <span class="label">Contato</span>
+    </div>
 
-      <div class="stack-grid">
-        <div class="stack-category">
-          <div class="stack-category-title">Backend</div>
-          <div class="stack-items">
-            <span class="stack-item">Go (Gin)</span>
-            <span class="stack-item">Node.js</span>
-            <span class="stack-item">TypeScript</span>
-            <span class="stack-item">PHP</span>
-            <span class="stack-item">REST · WebSockets</span>
-          </div>
-        </div>
-        <div class="stack-category">
-          <div class="stack-category-title">Frontend</div>
-          <div class="stack-items">
-            <span class="stack-item">React (Vite)</span>
-            <span class="stack-item">Next.js</span>
-            <span class="stack-item">Angular</span>
-            <span class="stack-item">TypeScript</span>
-          </div>
-        </div>
-        <div class="stack-category">
-          <div class="stack-category-title">Dados</div>
-          <div class="stack-items">
-            <span class="stack-item">PostgreSQL</span>
-            <span class="stack-item">MySQL</span>
-            <span class="stack-item">Redis</span>
-            <span class="stack-item">RabbitMQ</span>
-            <span class="stack-item">MongoDB</span>
-          </div>
-        </div>
-        <div class="stack-category">
-          <div class="stack-category-title">DevOps</div>
-          <div class="stack-items">
-            <span class="stack-item">Kubernetes (DOKS/GKE)</span>
-            <span class="stack-item">Docker / Swarm</span>
-            <span class="stack-item">Linux</span>
-            <span class="stack-item">GitHub Actions</span>
-            <span class="stack-item">ArgoCD · Jenkins</span>
-          </div>
-        </div>
-        <div class="stack-category">
-          <div class="stack-category-title">Cloud</div>
-          <div class="stack-items">
-            <span class="stack-item">AWS (EC2, S3)</span>
-            <span class="stack-item">GCP</span>
-            <span class="stack-item">DigitalOcean</span>
-            <span class="stack-item">Hetzner</span>
-          </div>
-        </div>
-        <div class="stack-category">
-          <div class="stack-category-title">IA & Integrações</div>
-          <div class="stack-items">
-            <span class="stack-item">WhatsApp Business API</span>
-            <span class="stack-item">ElevenLabs</span>
-            <span class="stack-item">OpenRouter / Gemini</span>
-            <span class="stack-item">Google Calendar API</span>
-            <span class="stack-item">Prompt Engineering</span>
-          </div>
-        </div>
+    <div class="contact-grid">
+      <div>
+        <h2>Vamos construir<br/><span class="it">algo que funcione?</span></h2>
+        <p class="lead">Respondo em até 24 horas em dias úteis. Prefira um e-mail direto com contexto sobre o que você precisa construir.</p>
+        <a id="emailLink" href="mailto:hamiltonjr.dev@gmail.com" class="email-link">
+          hamiltonjr.dev@gmail.com
+          <span class="copied-flag" id="copiedFlag">↳ copiado</span>
+        </a>
+      </div>
+
+      <div class="contact-channels">
+        <a class="contact-channel" href="mailto:hamiltonjr.dev@gmail.com">
+          <span class="ch-label">E-mail</span>
+          <span class="ch-handle">hamiltonjr.dev@gmail.com</span>
+          <span class="ch-arrow">↗</span>
+        </a>
+        <a class="contact-channel" href="https://www.linkedin.com/in/jhamiltonjunior" target="_blank" rel="noopener">
+          <span class="ch-label">LinkedIn</span>
+          <span class="ch-handle">in/jhamiltonjunior</span>
+          <span class="ch-arrow">↗</span>
+        </a>
+        <a class="contact-channel" href="https://github.com/jhamiltonjunior" target="_blank" rel="noopener">
+          <span class="ch-label">GitHub</span>
+          <span class="ch-handle">github.com/jhamiltonjunior</span>
+          <span class="ch-arrow">↗</span>
+        </a>
+        <a class="contact-channel" href="#top">
+          <span class="ch-label">Voltar ao topo</span>
+          <span class="ch-handle">início da página</span>
+          <span class="ch-arrow">↑</span>
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SOBRE -->
-  <section class="sobre" id="sobre">
-    <div class="section-inner">
-      <div class="sobre-grid">
-        <div class="sobre-text">
-          <div class="sobre-avatar">HJ</div>
-          <h2>Desenvolvedor fullstack com visão de produto</h2>
-          <p>
-            Sou <strong>Hamilton Júnior</strong>, desenvolvedor com quase 3 anos de experiência em sistemas de alta performance para empresas em crescimento. Moro em Alagoinhas, BA, e atendo clientes remotamente em todo o Brasil.
-          </p>
-          <p>
-            Atualmente trabalho na <strong>Edutec Consultoria</strong>, onde liderei a migração de infraestrutura monolítica para Kubernetes e construí sistemas de IA com integração WhatsApp. Também estou desenvolvendo o <strong>Aseno</strong>, um SaaS de gestão para clínicas de estética e fisioterapia.
-          </p>
-          <p>
-            Além do código, tenho visão de produto e negócio — entendo que sistemas existem para resolver problemas, não para impressionar outros devs.
-          </p>
-          <div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap;">
-            <a href="https://linkedin.com/in/jhamiltonjunior" target="_blank" class="btn-secondary" style="font-size:13px; padding:10px 20px;">LinkedIn</a>
-            <a href="https://github.com/jhamiltonjunior" target="_blank" class="btn-secondary" style="font-size:13px; padding:10px 20px;">GitHub</a>
-          </div>
-        </div>
+<!-- ─────────────────────── FOOTER ─────────────────────── -->
+<footer>
+  <div class="container foot-inner">
+    <span>Hamilton Júnior</span>
+    <span>2026 · Alagoinhas / BA</span>
+    <span>hamiltonjr.dev</span>
+  </div>
+</footer>
 
-        <div class="sobre-highlights">
-          <div class="highlight-card">
-            <div class="hi-icon">🏗️</div>
-            <div class="hi-content">
-              <h4>Liderança técnica</h4>
-              <p>Code reviews, definição de padrões Clean Code/SOLID e condução de cerimônias Scrum. Redução de 35% em bugs de produção.</p>
-            </div>
-          </div>
-          <div class="highlight-card">
-            <div class="hi-icon">☁️</div>
-            <div class="hi-content">
-              <h4>Infraestrutura real</h4>
-              <p>Gerenciamento de 35+ containers em produção. Migração Docker Swarm → Kubernetes com zero downtime em produção.</p>
-            </div>
-          </div>
-          <div class="highlight-card">
-            <div class="hi-icon">🤖</div>
-            <div class="hi-content">
-              <h4>IA em produção</h4>
-              <p>Agentes de IA com voz real (ElevenLabs) rodando em produção — não só protótipos. Integração WhatsApp Business oficial com 100% de conformidade Meta.</p>
-            </div>
-          </div>
-          <div class="highlight-card">
-            <div class="hi-icon">📦</div>
-            <div class="hi-content">
-              <h4>Mentalidade de produto</h4>
-              <p>Fundador do Aseno. Entendo o ciclo completo: discovery, arquitetura, desenvolvimento e entrega para o usuário final.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA FINAL -->
-  <section class="cta-section">
-    <div style="max-width:720px; margin:0 auto;">
-      <h2>Pronto para resolver<br>o próximo problema?</h2>
-      <p>Me conta o desafio técnico que o seu negócio está enfrentando. Respondo em até 24h.</p>
-      <div class="cta-buttons">
-        <a href="mailto:hamiltonjr.dev@gmail.com@gmail.com" class="btn-white">Enviar e-mail →</a>
-        <a href="https://linkedin.com/in/jhamiltonjunior" target="_blank" class="btn-ghost">LinkedIn</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-logo">
-        <div class="logo-mark">HJ</div>
-        <span>Hamilton Jr.</span>
-      </div>
-      <ul class="footer-links">
-        <li><a href="#servicos">Serviços</a></li>
-        <li><a href="#projetos">Projetos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="mailto:hamiltonjr.dev@gmail.com@gmail.com">Contato</a></li>
-      </ul>
-      <span class="footer-copy">© 2025 Hamilton Jr. · Alagoinhas, BA</span>
-    </div>
-  </footer>
+<script>
+  (function(){
+    const link = document.getElementById('emailLink');
+    const flag = document.getElementById('copiedFlag');
+    if(!link) return;
+    link.addEventListener('click', function(){
+      const email = 'hamiltonjr.dev@gmail.com';
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(email).then(function(){
+          flag.classList.add('show');
+          setTimeout(function(){ flag.classList.remove('show'); }, 1800);
+        }).catch(function(){});
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>
